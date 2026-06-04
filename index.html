@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Mola Prono</title>
+  <meta name="theme-color" content="#07101e">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/style.css">
+</head>
+<body>
+
+  <!-- ── HEADER ── -->
+  <header class="app-header">
+    <div class="header-glow"></div>
+    <div class="header-inner">
+      <div class="logo-wrap">
+        <span class="logo-ball">⚽</span>
+        <div>
+          <h1 class="app-title">Mola <em>Prono</em></h1>
+          <p class="app-sub">Pronostics Football</p>
+        </div>
+      </div>
+      <div class="header-right">
+        <div id="header-date" class="header-date"></div>
+        <div id="notif-dot" class="notif-dot hidden"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── WHATSAPP CTA ── -->
+  <section class="wa-section">
+    <div class="wa-top">
+      <span class="wa-icon">📲</span>
+      <div>
+        <strong class="wa-title">Rejoignez notre chaîne WhatsApp</strong>
+        <p class="wa-sub">Ne manquez aucun coupon gratuit !</p>
+      </div>
+    </div>
+    <div class="wa-form">
+      <div class="fields-row">
+        <!-- Country selector -->
+        <div class="custom-select" id="cs-wrap">
+          <div class="cs-selected" id="cs-selected" onclick="toggleCS()">
+            <img id="cs-flag" class="cs-flag" src="" alt="" style="display:none">
+            <span id="cs-name">🌍 Pays</span>
+            <span class="cs-arrow">▾</span>
+          </div>
+          <div class="cs-dropdown" id="cs-list"></div>
+        </div>
+        <!-- Phone -->
+        <div class="phone-wrapper">
+          <span class="phone-prefix" id="phone-prefix" style="display:none"></span>
+          <input type="tel" id="phone-input" inputmode="numeric" placeholder="Numéro" autocomplete="off">
+        </div>
+      </div>
+      <button class="wa-btn" id="wa-btn" onclick="joinWhatsApp()">
+        <span>📲 Rejoindre WhatsApp</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ── PRONOSTICS ── -->
+  <main class="main-content">
+    <div class="section-header">
+      <h2 class="section-title">Pronostics du Jour</h2>
+      <span class="count-badge" id="pred-count">0</span>
+      <span class="update-info" id="update-ts"></span>
+    </div>
+    <div id="cards" class="cards-grid">
+      <div class="loading-state">
+        <div class="spinner"></div>
+        <p>Chargement des coupons…</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- ── PROMO BANNER ── -->
+  <div class="promo-banner">
+    <div class="promo-inner">
+      <span class="promo-icon">💰</span>
+      <div class="promo-text">
+        <strong>Inscrivez vous sur 1xbet avec le code promo <span class="promo-code">KS15</span></strong>
+        <span>et bénéficiez de 200% de bonus et de nos grosses cotes gratuitement</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="safe-bottom"></div>
+
+  <!-- ── IN-APP NOTIFICATION BANNER ── -->
+  <div id="notif-banner" class="in-app-notif" onclick="dismissBanner()">
+    <div class="notif-banner-inner">
+      <span class="notif-banner-icon">🔔</span>
+      <div>
+        <strong id="notif-banner-title"></strong>
+        <p id="notif-banner-body"></p>
+      </div>
+      <span class="notif-banner-close">✕</span>
+    </div>
+  </div>
+
+  <script type="module" src="/src/app.js"></script>
+</body>
+</html>

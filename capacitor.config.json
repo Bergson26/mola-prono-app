@@ -1,0 +1,14 @@
+{
+  "appId": "online.molaprono.app",
+  "appName": "Mola Prono",
+  "webDir": "dist",
+  "plugins": {
+    "FirebaseMessaging": {
+      "presentationOptions": ["badge", "sound", "alert"]
+    }
+  },
+  "android": {
+    "allowMixedContent": false,
+    "webContentsDebuggingEnabled": false
+  }
+}
