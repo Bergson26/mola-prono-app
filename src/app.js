@@ -1,6 +1,6 @@
 import { FirebaseMessaging } from '@capacitor-firebase/messaging';
 
-const SERVER   = 'https://mola-prono.online';
+const SERVER   = 'https://sms.mola-prono.online';
 const WA_LINK  = 'https://www.whatsapp.com/channel/0029VbBrwdH1noz3OjnU5B2V';
 
 const COUNTRIES = [
