@@ -57,7 +57,12 @@ jobs:
               -o android/app/src/main/res/${dir}/ic_launcher.png
             rsvg-convert -w $size -h $size resources/icon.svg \
               -o android/app/src/main/res/${dir}/ic_launcher_round.png
+            rsvg-convert -w $size -h $size resources/icon.svg \
+              -o android/app/src/main/res/${dir}/ic_launcher_foreground.png
           done
+          # Supprimer les adaptive icons XML qui ignorent nos PNG
+          rm -f android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
+          rm -f android/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml
 
       - name: Make gradlew executable
         run: chmod +x android/gradlew
