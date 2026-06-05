@@ -1,7 +1,8 @@
 import { FirebaseMessaging } from '@capacitor-firebase/messaging';
 
-const SERVER   = 'https://sms.mola-prono.online';
-const WA_LINK  = 'https://www.whatsapp.com/channel/0029VbBrwdH1noz3OjnU5B2V';
+const API_SERVER  = 'https://sms.mola-prono.online';
+const DATA_SERVER = 'https://sms.mola-prono.online';
+const WA_LINK     = 'https://www.whatsapp.com/channel/0029VbBrwdH1noz3OjnU5B2V';
 
 const COUNTRIES = [
   { name: "Bénin",         ind: "229", code: "bj", ph: "01 23 45 67 89" },
@@ -97,7 +98,7 @@ window.joinWhatsApp = function () {
   fd.append('pays', selectedCountry.name);
   fd.append('indicatif', selectedCountry.ind);
   fd.append('telephone', phone);
-  fetch(`${SERVER}/subscribe.php`, { method: 'POST', body: fd }).catch(() => {});
+  fetch(`${DATA_SERVER}/subscribe.php`, { method: 'POST', body: fd }).catch(() => {});
 
   // Open WhatsApp channel
   window.open(WA_LINK, '_system');
@@ -106,7 +107,7 @@ window.joinWhatsApp = function () {
 // ── PRONOSTICS ────────────────────────────────────────────────
 function loadPronostics() {
   const s = document.createElement('script');
-  s.src = `${SERVER}/data.js?v=${new Date().toISOString().slice(0, 10)}`;
+  s.src = `${DATA_SERVER}/data.js?v=${new Date().toISOString().slice(0, 10)}`;
   s.onload = () => { if (typeof render === 'function') render(); };
   s.onerror = () => showPronoError();
   document.head.appendChild(s);
@@ -262,12 +263,24 @@ async function initNotifications() {
       showBanner(notification.title || 'Mola Prono', notification.body || '');
     });
 
-    // User tapped notification (app was closed/background)
+    // User tapped notification (app was in background)
     await FirebaseMessaging.addListener('notificationActionPerformed', ({ notification }) => {
       const data = notification.data || {};
       if (data.notif_id) trackOpen(data.notif_id);
-      document.getElementById('notif-dot').classList.add('hidden');
+      document.getElementById('notif-dot').classList.remove('hidden');
     });
+
+    // App opened from cold start via notification tap
+    try {
+      const { notification } = await FirebaseMessaging.getDeliveredNotifications();
+    } catch (_) {}
+    try {
+      const initial = await FirebaseMessaging.getInitialNotification();
+      if (initial && initial.notification) {
+        const data = initial.notification.data || {};
+        if (data.notif_id) trackOpen(data.notif_id);
+      }
+    } catch (_) {}
 
   } catch (e) {
     // Silent fail — notifications not critical for app function
@@ -275,7 +288,7 @@ async function initNotifications() {
 }
 
 function saveDevice(token, geo) {
-  fetch(`${SERVER}/save_token.php`, {
+  fetch(`${API_SERVER}/save_token.php`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -288,7 +301,7 @@ function saveDevice(token, geo) {
 }
 
 function trackOpen(notifId) {
-  fetch(`${SERVER}/track_open.php`, {
+  fetch(`${API_SERVER}/track_open.php`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ notif_id: notifId }),
