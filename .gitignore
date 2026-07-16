@@ -5,3 +5,4 @@ dist/
 *.keystore
 firebase-service-account.json
 KEYSTORE_CREDENTIALS.txt
+config.php
