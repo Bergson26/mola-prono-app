@@ -1,11 +1,11 @@
 import { FirebaseMessaging } from '@capacitor-firebase/messaging';
 
 // Serveur API mobile (tokens FCM, stats, pronos manuels avec CORS)
-const API_SERVER    = 'https://mobile.mola-prono.online';
+const API_SERVER    = 'https://sms.mola-prono.online';
 // Serveur data : data.js via <script> tag (pas de CORS requis pour les balises script)
 const DATA_SERVER   = 'https://mola-prono.online';
 // Serveur mobile : get_manual_pronos.php + get_suppressed.php avec header CORS
-const MOBILE_SERVER = 'https://mobile.mola-prono.online';
+const MOBILE_SERVER = 'https://sms.mola-prono.online';
 
 const WA_LINK   = 'https://www.whatsapp.com/channel/0029VbBrwdH1noz3OjnU5B2V';
 const NOTIF_KEY = 'mola_notifications';
