@@ -68,7 +68,7 @@ jobs:
         run: |
           rsvg-convert -w 288 -h 288 resources/icon.svg \
             -o android/app/src/main/res/drawable/ic_splash.png
-          rm -f android/app/src/main/res/drawable/splash.png
+          find android/app/src/main/res -name "splash.*" -delete
           printf '%s\n' \
             '<?xml version="1.0" encoding="utf-8"?>' \
             '<layer-list xmlns:android="http://schemas.android.com/apk/res/android">' \

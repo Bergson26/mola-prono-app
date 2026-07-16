@@ -1,4 +1,5 @@
 import { FirebaseMessaging } from '@capacitor-firebase/messaging';
+import './style.css';
 
 // Serveur API mobile (tokens FCM, stats, pronos manuels avec CORS)
 const API_SERVER    = 'https://sms.mola-prono.online';
