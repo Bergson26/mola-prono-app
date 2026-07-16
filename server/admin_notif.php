@@ -75,11 +75,14 @@ if (!empty($_SESSION['notif_flash'])) {
 }
 
 // ── Data ──────────────────────────────────────────────────────
-$tokens  = jread_m(FILE_TOKENS_M);
-$notifs  = array_reverse(jread_m(FILE_NOTIFS_M));
+define('FILE_DOWNLOADS_M', __DIR__ . '/data/downloads.json');
 
-$total_installs   = count($tokens);
-$country_stats    = [];
+$tokens    = jread_m(FILE_TOKENS_M);
+$notifs    = array_reverse(jread_m(FILE_NOTIFS_M));
+$downloads = jread_m(FILE_DOWNLOADS_M);
+
+$total_installs = count($tokens);
+$country_stats  = [];
 foreach ($tokens as $t) {
     $cc = $t['country_code'] ?? '??';
     $cn = $t['country']      ?? $cc;
@@ -87,6 +90,24 @@ foreach ($tokens as $t) {
     $country_stats[$cc]['count']++;
 }
 uasort($country_stats, fn($a, $b) => $b['count'] - $a['count']);
+
+// Stats téléchargements APK
+$total_downloads = count($downloads);
+$dl_by_day       = [];
+$dl_by_country   = [];
+foreach ($downloads as $d) {
+    $date = $d['date'] ?? '';
+    if ($date) $dl_by_day[$date] = ($dl_by_day[$date] ?? 0) + 1;
+    $c = $d['country'] ?: ($d['country_code'] ?: '?');
+    $dl_by_country[$c] = ($dl_by_country[$c] ?? 0) + 1;
+}
+krsort($dl_by_day);
+arsort($dl_by_country);
+$dl_today = $dl_by_day[date('Y-m-d')] ?? 0;
+
+// Total ouvertures de notifications
+$total_opens = 0;
+foreach (jread_m(FILE_NOTIFS_M) as $n) { $total_opens += intval($n['open_count'] ?? 0); }
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -209,21 +230,77 @@ uasort($country_stats, fn($a, $b) => $b['count'] - $a['count']);
   <div class="flash <?= $flash_type ?>"><?= htmlspecialchars($flash) ?></div>
   <?php endif; ?>
 
-  <!-- Stats -->
-  <div class="stats-row">
+  <!-- Stats générales -->
+  <div class="stats-row" style="grid-template-columns:repeat(3,1fr);margin-bottom:14px">
     <div class="stat-card">
       <div class="stat-num"><?= $total_installs ?></div>
-      <div class="stat-lbl">Installations</div>
+      <div class="stat-lbl">Appareils actifs</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num"><?= $total_downloads ?></div>
+      <div class="stat-lbl">Téléchargements APK</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num"><?= $dl_today ?></div>
+      <div class="stat-lbl">DL aujourd'hui</div>
+    </div>
+  </div>
+  <div class="stats-row" style="grid-template-columns:repeat(3,1fr);margin-bottom:28px">
+    <div class="stat-card">
+      <div class="stat-num"><?= count($notifs) ?></div>
+      <div class="stat-lbl">Notifs envoyées</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num"><?= $total_opens ?></div>
+      <div class="stat-lbl">Ouvertures notifs</div>
     </div>
     <div class="stat-card">
       <div class="stat-num"><?= count($country_stats) ?></div>
-      <div class="stat-lbl">Pays</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-num"><?= count($notifs) ?></div>
-      <div class="stat-lbl">Notifications envoyées</div>
+      <div class="stat-lbl">Pays représentés</div>
     </div>
   </div>
+
+  <!-- Stats téléchargements APK -->
+  <?php if (!empty($dl_by_day) || !empty($dl_by_country)): ?>
+  <div class="panel" style="margin-bottom:24px">
+    <div class="panel-title">📥 Téléchargements APK</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;flex-wrap:wrap">
+
+      <!-- Par jour -->
+      <div>
+        <p style="font-size:12px;color:var(--muted);font-weight:700;margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em">Par jour (14 derniers)</p>
+        <?php if (empty($dl_by_day)): ?>
+          <p style="font-size:13px;color:var(--muted)">Aucun téléchargement</p>
+        <?php else: $max_dl = max(array_values($dl_by_day)); foreach (array_slice($dl_by_day, 0, 14, true) as $date => $cnt): ?>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+          <span style="font-size:12px;color:var(--muted);width:80px;flex-shrink:0"><?= htmlspecialchars($date) ?></span>
+          <div style="flex:1;background:rgba(255,255,255,.06);border-radius:4px;height:14px;overflow:hidden">
+            <div style="height:100%;background:var(--green);width:<?= $max_dl ? round($cnt/$max_dl*100) : 0 ?>%;border-radius:4px"></div>
+          </div>
+          <span style="font-size:12px;font-weight:700;width:24px;text-align:right"><?= $cnt ?></span>
+        </div>
+        <?php endforeach; endif; ?>
+      </div>
+
+      <!-- Par pays -->
+      <div>
+        <p style="font-size:12px;color:var(--muted);font-weight:700;margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em">Par pays (top 10)</p>
+        <?php if (empty($dl_by_country)): ?>
+          <p style="font-size:13px;color:var(--muted)">Aucun téléchargement</p>
+        <?php else: $max_c = max(array_values($dl_by_country)); foreach (array_slice($dl_by_country, 0, 10, true) as $name => $cnt): ?>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+          <span style="font-size:12px;color:var(--muted);width:80px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><?= htmlspecialchars($name) ?></span>
+          <div style="flex:1;background:rgba(255,255,255,.06);border-radius:4px;height:14px;overflow:hidden">
+            <div style="height:100%;background:#3b82f6;width:<?= $max_c ? round($cnt/$max_c*100) : 0 ?>%;border-radius:4px"></div>
+          </div>
+          <span style="font-size:12px;font-weight:700;width:24px;text-align:right"><?= $cnt ?></span>
+        </div>
+        <?php endforeach; endif; ?>
+      </div>
+
+    </div>
+  </div>
+  <?php endif; ?>
 
   <!-- ── ENVOYER ── -->
   <div class="panel">

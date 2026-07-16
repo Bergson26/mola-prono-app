@@ -86,12 +86,13 @@ function fcm_send_topic(string $title, string $body, string $topic, string $noti
             'android'      => [
                 'priority'     => 'high',
                 'notification' => [
-                    'sound'                => 'default',
-                    'channel_id'           => 'mola_prono',
-                    'sticky'               => true,
-                    'local_only'           => false,
-                    'notification_priority'=> 'PRIORITY_MAX',
-                    'visibility'           => 'PUBLIC',
+                    'sound'                   => 'default',
+                    'default_sound'           => true,
+                    'default_vibrate_timings' => true,
+                    'channel_id'              => 'firebase_default',
+                    'sticky'                  => true,
+                    'notification_priority'   => 'PRIORITY_HIGH',
+                    'visibility'              => 'PUBLIC',
                 ],
             ],
             'data' => [
@@ -118,12 +119,13 @@ function fcm_send_token(string $device_token, string $title, string $body, strin
             'android'      => [
                 'priority'     => 'high',
                 'notification' => [
-                    'sound'                => 'default',
-                    'channel_id'           => 'mola_prono',
-                    'sticky'               => true,
-                    'local_only'           => false,
-                    'notification_priority'=> 'PRIORITY_MAX',
-                    'visibility'           => 'PUBLIC',
+                    'sound'                   => 'default',
+                    'default_sound'           => true,
+                    'default_vibrate_timings' => true,
+                    'channel_id'              => 'firebase_default',
+                    'sticky'                  => true,
+                    'notification_priority'   => 'PRIORITY_HIGH',
+                    'visibility'              => 'PUBLIC',
                 ],
             ],
             'data' => [
