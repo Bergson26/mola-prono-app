@@ -25,8 +25,8 @@ html { height: 100%; overflow-x: hidden; }
 
 body {
   font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: var(--bg);
-  color: var(--text);
+  background: #ffffff;
+  color: #111827;
   min-height: 100vh;
   overscroll-behavior: none;
 }
@@ -329,6 +329,7 @@ body {
   font-size: 17px;
   font-weight: 800;
   letter-spacing: -.02em;
+  color: #0a0f1e;
 }
 
 .count-badge {
@@ -372,12 +373,12 @@ body {
 }
 
 .pred-card {
-  background: var(--card);
-  border: 1px solid var(--border);
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
   border-radius: var(--radius);
   overflow: hidden;
   transition: transform .15s, box-shadow .15s;
-  box-shadow: 0 4px 20px rgba(0,0,0,.3);
+  box-shadow: 0 4px 20px rgba(0,0,0,.1);
 }
 .pred-card:active { transform: scale(.99); }
 
@@ -387,7 +388,8 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 12px 14px 10px;
-  border-bottom: 1px solid var(--border);
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .league-row {
@@ -405,18 +407,18 @@ body {
 .league-name {
   font-size: 11px;
   font-weight: 600;
-  color: var(--muted);
+  color: #6b7280;
   text-transform: uppercase;
   letter-spacing: .05em;
 }
 
 .ko-pill {
   font-size: 11px;
-  background: rgba(255,255,255,.06);
-  border: 1px solid var(--border);
+  background: #111827;
+  border: none;
   padding: 4px 10px;
   border-radius: 20px;
-  color: var(--muted);
+  color: #e8f0fe;
   white-space: nowrap;
 }
 
@@ -453,14 +455,15 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
+  color: #111827;
 }
 
 .vs-badge {
   font-size: 11px;
   font-weight: 900;
-  color: var(--muted);
-  background: var(--bg2);
-  border: 1px solid var(--border);
+  color: #9ca3af;
+  background: #f1f5f9;
+  border: 1px solid #e5e7eb;
   padding: 7px 10px;
   border-radius: 20px;
   flex-shrink: 0;
@@ -470,13 +473,14 @@ body {
 /* Prediction section */
 .c-pred {
   padding: 12px 14px 14px;
-  border-top: 1px solid var(--border);
+  background: #ffffff;
+  border-top: 1px solid #e5e7eb;
 }
 
 /* Bloc principal (pronostic auto) */
 .main-pred-box {
-  background: rgba(34,197,94,.08);
-  border: 1px solid rgba(34,197,94,.2);
+  background: #dcfce7;
+  border: 1px solid #86efac;
   border-radius: 10px;
   padding: 12px 14px;
   display: flex;
@@ -505,13 +509,13 @@ body {
   font-size: 13px;
   font-weight: 700;
   line-height: 1.3;
-  color: var(--text);
+  color: #111827;
 }
 
 .main-pred-pct {
   font-size: 16px;
   font-weight: 900;
-  color: var(--green);
+  color: #16a34a;
   flex-shrink: 0;
 }
 
@@ -521,8 +525,9 @@ body {
   align-items: center;
   gap: 8px;
   padding: 7px 0;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid #f3f4f6;
   font-size: 13px;
+  background: #ffffff;
 }
 
 .stat-circle {
@@ -540,12 +545,12 @@ body {
 .stat-circle.no  { background: #b91c1c; color: #fff; }
 .stat-circle.neu { background: var(--yellow); color: #000; }
 
-.stat-lbl { flex: 1; color: var(--muted); font-size: 12px; line-height: 1.3; }
+.stat-lbl { flex: 1; color: #374151; font-size: 12px; line-height: 1.3; }
 
 .stat-pct { font-size: 12px; font-weight: 700; flex-shrink: 0; }
-.stat-pct.yes { color: var(--green); }
-.stat-pct.no  { color: var(--red); }
-.stat-pct.neu { color: var(--yellow); }
+.stat-pct.yes { color: #16a34a; }
+.stat-pct.no  { color: #ef4444; }
+.stat-pct.neu { color: #f59e0b; }
 
 /* Séparateur auto/manuel */
 .c-sep { display: none; }
@@ -556,16 +561,17 @@ body {
   align-items: center;
   gap: 8px;
   padding: 7px 0;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid #f3f4f6;
   font-size: 13px;
+  background: #ffffff;
 }
 
-.manual-label { flex: 1; color: var(--muted); font-size: 12px; line-height: 1.3; }
+.manual-label { flex: 1; color: #374151; font-size: 12px; line-height: 1.3; }
 
 .manual-val { font-size: 12px; font-weight: 700; flex-shrink: 0; }
-.manual-val.yes { color: var(--green); }
-.manual-val.no  { color: var(--red); }
-.manual-val.neu { color: var(--yellow); }
+.manual-val.yes { color: #16a34a; }
+.manual-val.no  { color: #ef4444; }
+.manual-val.neu { color: #6b7280; }
 
 /* ═══════════════════════════════════════
    LOADING / EMPTY STATES
@@ -573,17 +579,17 @@ body {
 .loading-state, .empty-state {
   text-align: center;
   padding: 52px 20px;
-  color: var(--muted);
+  color: #9ca3af;
 }
 
 .loading-state p { font-size: 14px; margin-top: 4px; }
 .empty-state .empty-icon { font-size: 52px; display: block; margin-bottom: 14px; }
-.empty-state p   { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+.empty-state p   { font-size: 15px; font-weight: 700; color: #111827; margin-bottom: 6px; }
 .empty-state small { font-size: 13px; }
 
 .spinner {
   width: 38px; height: 38px;
-  border: 3px solid rgba(255,255,255,.08);
+  border: 3px solid rgba(0,0,0,.08);
   border-top-color: var(--green);
   border-radius: 50%;
   animation: spin .7s linear infinite;
@@ -604,8 +610,8 @@ body {
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  background: var(--card);
-  border: 1px solid var(--border);
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
   border-radius: 14px;
   padding: 14px;
 }
@@ -628,7 +634,7 @@ body {
 .notif-item-title {
   font-size: 14px;
   font-weight: 800;
-  color: var(--text);
+  color: #111827;
   margin-bottom: 4px;
   line-height: 1.3;
 }

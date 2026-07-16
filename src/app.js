@@ -55,7 +55,8 @@ function loadPronostics() {
 }
 
 function mergeAndRender() {
-  const data = (typeof window.PREDICTIONS_DATA !== 'undefined') ? window.PREDICTIONS_DATA : null;
+  // eslint-disable-next-line no-undef
+  const data = (typeof PREDICTIONS_DATA !== 'undefined') ? PREDICTIONS_DATA : null;
 
   if (data && data.date) {
     const el = document.getElementById('header-date');
