@@ -118,10 +118,10 @@ foreach (jread_m(FILE_NOTIFS_M) as $n) { $total_opens += intval($n['open_count']
   <title>Mola Prono — Admin Notifications</title>
   <style>
     :root {
-      --bg: #0f0f13; --bg2: #18181f; --bg3: #1e1e28;
+      --bg: #ffffff; --bg2: #f9fafb; --bg3: #f3f4f6;
       --green: #22c55e; --green-dk: #16a34a;
-      --text: #f0f0f5; --muted: #8888a0;
-      --brd: #2a2a38; --red: #f87171; --yellow: #f59e0b;
+      --text: #111827; --muted: #6b7280;
+      --brd: #e5e7eb; --red: #ef4444; --yellow: #f59e0b;
       --radius: 12px;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -193,7 +193,7 @@ foreach (jread_m(FILE_NOTIFS_M) as $n) { $total_opens += intval($n['open_count']
     th { padding: 10px 14px; text-align: left; color: var(--muted); font-weight: 700; text-transform: uppercase; font-size: 11px; letter-spacing: .05em; border-bottom: 1px solid var(--brd); }
     td { padding: 11px 14px; border-bottom: 1px solid rgba(255,255,255,.04); }
     tr:last-child td { border-bottom: none; }
-    tr:hover td { background: rgba(255,255,255,.02); }
+    tr:hover td { background: rgba(0,0,0,.02); }
     .badge-green { background: rgba(34,197,94,.15); color: var(--green); padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; }
     .badge-red   { background: rgba(248,113,113,.15); color: var(--red); padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; }
     .badge-muted { background: var(--bg3); color: var(--muted); padding: 2px 8px; border-radius: 6px; font-size: 11px; }
@@ -282,7 +282,7 @@ foreach (jread_m(FILE_NOTIFS_M) as $n) { $total_opens += intval($n['open_count']
         <?php else: $max_dl = max(array_values($dl_by_day)); foreach (array_slice($dl_by_day, 0, 14, true) as $date => $cnt): ?>
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
           <span style="font-size:12px;color:var(--muted);width:80px;flex-shrink:0"><?= htmlspecialchars($date) ?></span>
-          <div style="flex:1;background:rgba(255,255,255,.06);border-radius:4px;height:14px;overflow:hidden">
+          <div style="flex:1;background:rgba(0,0,0,.06);border-radius:4px;height:14px;overflow:hidden">
             <div style="height:100%;background:var(--green);width:<?= $max_dl ? round($cnt/$max_dl*100) : 0 ?>%;border-radius:4px"></div>
           </div>
           <span style="font-size:12px;font-weight:700;width:24px;text-align:right"><?= $cnt ?></span>
@@ -298,7 +298,7 @@ foreach (jread_m(FILE_NOTIFS_M) as $n) { $total_opens += intval($n['open_count']
         <?php else: $max_c = max(array_values($dl_by_country)); foreach (array_slice($dl_by_country, 0, 10, true) as $name => $cnt): ?>
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
           <span style="font-size:12px;color:var(--muted);width:80px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><?= htmlspecialchars($name) ?></span>
-          <div style="flex:1;background:rgba(255,255,255,.06);border-radius:4px;height:14px;overflow:hidden">
+          <div style="flex:1;background:rgba(0,0,0,.06);border-radius:4px;height:14px;overflow:hidden">
             <div style="height:100%;background:#3b82f6;width:<?= $max_c ? round($cnt/$max_c*100) : 0 ?>%;border-radius:4px"></div>
           </div>
           <span style="font-size:12px;font-weight:700;width:24px;text-align:right"><?= $cnt ?></span>

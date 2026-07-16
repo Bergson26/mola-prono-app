@@ -279,8 +279,13 @@ function emptyState(icon, title, sub) {
 
 // ── HISTORIQUE NOTIFICATIONS ──────────────────────────────────
 function getNotifHistory() {
-  try { return JSON.parse(localStorage.getItem(NOTIF_KEY) || '[]'); }
-  catch { return []; }
+  try {
+    const all    = JSON.parse(localStorage.getItem(NOTIF_KEY) || '[]');
+    const cutoff = Date.now() - 24 * 60 * 60 * 1000;
+    const fresh  = all.filter(n => new Date(n.date).getTime() > cutoff);
+    if (fresh.length !== all.length) localStorage.setItem(NOTIF_KEY, JSON.stringify(fresh));
+    return fresh;
+  } catch { return []; }
 }
 
 function saveNotifToHistory(title, body) {
@@ -444,4 +449,18 @@ window.dismissBanner = function () {
   const banner = document.getElementById('notif-banner');
   if (banner) banner.classList.remove('show');
   if (bannerTimer) clearTimeout(bannerTimer);
+};
+
+// ── PARTAGER L'APPLICATION ────────────────────────────────────
+window.shareApp = async function () {
+  const url  = 'https://sms.mola-prono.online';
+  const text = 'Pronostics football gratuits + notifications push quotidiennes';
+  try {
+    if (navigator.share) {
+      await navigator.share({ title: 'Mola Prono', text, url });
+    } else {
+      await navigator.clipboard.writeText(url);
+      alert('Lien copié dans le presse-papiers !');
+    }
+  } catch (_) {}
 };

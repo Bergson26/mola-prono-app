@@ -64,6 +64,20 @@ jobs:
           rm -f android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
           rm -f android/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml
 
+      - name: Configure splash screen (logo Mola Prono)
+        run: |
+          rsvg-convert -w 288 -h 288 resources/icon.svg \
+            -o android/app/src/main/res/drawable/ic_splash.png
+          printf '%s\n' \
+            '<?xml version="1.0" encoding="utf-8"?>' \
+            '<layer-list xmlns:android="http://schemas.android.com/apk/res/android">' \
+            '    <item android:drawable="@android:color/white"/>' \
+            '    <item>' \
+            '        <bitmap android:src="@drawable/ic_splash" android:gravity="center"/>' \
+            '    </item>' \
+            '</layer-list>' \
+            > android/app/src/main/res/drawable/splash.xml
+
       - name: Make gradlew executable
         run: chmod +x android/gradlew
 

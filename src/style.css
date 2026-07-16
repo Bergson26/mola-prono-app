@@ -830,3 +830,30 @@ body {
 .safe-bottom {
   height: 8px;
 }
+
+/* ═══════════════════════════════════════
+   SECTION PARTAGER (APK)
+═══════════════════════════════════════ */
+.share-section {
+  padding: 14px 14px 0;
+}
+
+.share-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 13px 20px;
+  background: linear-gradient(135deg, var(--green-dk), var(--green));
+  color: #000;
+  font-weight: 800;
+  font-size: 14px;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  font-family: inherit;
+  box-shadow: 0 4px 16px rgba(34,197,94,.3);
+  transition: opacity .15s, transform .15s;
+}
+.share-btn:active { opacity: .85; transform: scale(.98); }
