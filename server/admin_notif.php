@@ -1,8 +1,9 @@
 <?php
 session_start();
 require_once __DIR__ . '/send_notif.php';
+require_once __DIR__ . '/../config.php';
 
-define('NOTIF_PASS', 'MolaSMS2026');
+define('NOTIF_PASS', ADMIN_SMS_PASSWORD); // même mot de passe que admin.php et admin_pronos.php
 
 $PAYS_MAP = [
     'bj' => 'Bénin', 'bf' => 'Burkina Faso', 'cm' => 'Cameroun',
@@ -12,16 +13,16 @@ $PAYS_MAP = [
 
 // ── Logout ────────────────────────────────────────────────────
 if (isset($_GET['logout'])) {
-    unset($_SESSION['notif_admin']);
+    unset($_SESSION['admin']);
     header('Location: admin_notif.php'); exit;
 }
 
 // ── Auth ──────────────────────────────────────────────────────
 $login_error = '';
-if (!isset($_SESSION['notif_admin'])) {
+if (!isset($_SESSION['admin'])) {
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['password'])) {
         if ($_POST['password'] === NOTIF_PASS) {
-            $_SESSION['notif_admin'] = true;
+            $_SESSION['admin'] = true;
             header('Location: admin_notif.php'); exit;
         }
         $login_error = 'Mot de passe incorrect.';
@@ -30,7 +31,7 @@ if (!isset($_SESSION['notif_admin'])) {
 
 // ── Envoi notification ────────────────────────────────────────
 $flash = ''; $flash_type = 'ok';
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['notif_admin']) && isset($_POST['title'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['admin']) && isset($_POST['title'])) {
     $title  = trim($_POST['title'] ?? '');
     $body   = trim($_POST['body']  ?? '');
     $target = $_POST['target']     ?? 'tous';
@@ -203,7 +204,7 @@ foreach (jread_m(FILE_NOTIFS_M) as $n) { $total_opens += intval($n['open_count']
 </head>
 <body>
 
-<?php if (!isset($_SESSION['notif_admin'])): ?>
+<?php if (!isset($_SESSION['admin'])): ?>
 <!-- ═══ LOGIN ═══ -->
 <div class="login-page">
   <div class="login-box">
@@ -222,9 +223,16 @@ foreach (jread_m(FILE_NOTIFS_M) as $n) { $total_opens += intval($n['open_count']
 <div class="admin-wrap">
 
   <div class="admin-header">
-    <h1 class="admin-title">🔔 Mola <em>Prono</em> — Notifications</h1>
+    <h1 class="admin-title">⚙️ Mola <em>Prono</em> — Admin</h1>
     <a href="?logout=1" class="logout-btn">Déconnexion →</a>
   </div>
+
+  <!-- Navigation entre les 3 panels -->
+  <nav style="display:flex;gap:0;border-bottom:1px solid var(--brd);margin-bottom:24px">
+    <a href="../admin.php" style="padding:12px 20px;font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;border-bottom:3px solid transparent">📊 Visiteurs</a>
+    <a href="../admin_pronos.php" style="padding:12px 20px;font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;border-bottom:3px solid transparent">⚽ Pronostics</a>
+    <a href="admin_notif.php" style="padding:12px 20px;font-size:14px;font-weight:700;color:var(--green);text-decoration:none;border-bottom:3px solid var(--green)">🔔 Notifications</a>
+  </nav>
 
   <?php if ($flash): ?>
   <div class="flash <?= $flash_type ?>"><?= htmlspecialchars($flash) ?></div>

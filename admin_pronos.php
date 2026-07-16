@@ -449,6 +449,7 @@ body { font-family: system-ui, sans-serif; background: var(--bg); color: var(--t
 <nav class="dash-nav">
   <a href="admin.php">📊 Visiteurs</a>
   <a href="admin_pronos.php" class="active">⚽ Pronostics</a>
+  <a href="server/admin_notif.php">🔔 Notifications</a>
 </nav>
 
 <!-- Stats cards -->

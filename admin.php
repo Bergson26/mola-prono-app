@@ -198,6 +198,7 @@ $logged = isset($_SESSION['admin']);
 <nav class="dash-nav">
   <a href="admin.php" class="active">📊 Visiteurs</a>
   <a href="admin_pronos.php">⚽ Pronostics</a>
+  <a href="server/admin_notif.php">🔔 Notifications</a>
 </nav>
 
 <div class="content">
