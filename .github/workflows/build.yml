@@ -47,22 +47,9 @@ jobs:
           JAVA_DIR="android/app/src/main/java/online/molaprono/app"
           cp resources/MyFirebaseMessagingService.java "$JAVA_DIR/"
           cp resources/MainActivity.java               "$JAVA_DIR/"
-          python3 - << 'PYEOF'
-with open('android/app/src/main/AndroidManifest.xml', 'r') as f:
-    content = f.read()
-service = (
-    '        <service\n'
-    '            android:name=".MyFirebaseMessagingService"\n'
-    '            android:exported="false">\n'
-    '            <intent-filter android:priority="1">\n'
-    '                <action android:name="com.google.firebase.MESSAGING_EVENT"/>\n'
-    '            </intent-filter>\n'
-    '        </service>\n'
-)
-content = content.replace('    </application>', service + '    </application>', 1)
-with open('android/app/src/main/AndroidManifest.xml', 'w') as f:
-    f.write(content)
-PYEOF
+          sed -i \
+            's|    </application>|        <service android:name=".MyFirebaseMessagingService" android:exported="false"><intent-filter android:priority="1"><action android:name="com.google.firebase.MESSAGING_EVENT"\/><\/intent-filter><\/service>\n    </application>|' \
+            android/app/src/main/AndroidManifest.xml
 
       - name: Generate app icons from logo
         run: |
