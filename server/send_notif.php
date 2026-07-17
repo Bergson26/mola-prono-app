@@ -82,7 +82,7 @@ function fcm_send_topic(string $title, string $body, string $topic, string $noti
     $payload = json_encode([
         'message' => [
             'topic'   => $topic,
-            'android' => ['priority' => 'high'],
+            'android' => ['priority' => 'HIGH'],
             'data'    => [
                 'notif_id' => $notif_id ?: uniqid(),
                 'title'    => $title,
@@ -103,7 +103,7 @@ function fcm_send_token(string $device_token, string $title, string $body, strin
     $payload = json_encode([
         'message' => [
             'token'   => $device_token,
-            'android' => ['priority' => 'high'],
+            'android' => ['priority' => 'HIGH'],
             'data'    => [
                 'notif_id' => $notif_id ?: uniqid(),
                 'title'    => $title,
