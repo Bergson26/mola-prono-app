@@ -47,6 +47,11 @@ jobs:
           JAVA_DIR="android/app/src/main/java/online/molaprono/app"
           cp resources/MyFirebaseMessagingService.java "$JAVA_DIR/"
           cp resources/MainActivity.java               "$JAVA_DIR/"
+          # Exposer firebase-messaging sur le classpath app (le plugin l'a en implementation non-transitive)
+          sed -i \
+            's|dependencies {|dependencies {\n    implementation "com.google.firebase:firebase-messaging:25.0.1"|' \
+            android/app/build.gradle
+          # Déclarer notre service dans AndroidManifest.xml
           sed -i \
             's|    </application>|        <service android:name=".MyFirebaseMessagingService" android:exported="false"><intent-filter android:priority="1"><action android:name="com.google.firebase.MESSAGING_EVENT"\/><\/intent-filter><\/service>\n    </application>|' \
             android/app/src/main/AndroidManifest.xml
