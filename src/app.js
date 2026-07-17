@@ -386,9 +386,12 @@ async function initNotifications() {
       }
     } catch (_) {}
 
-    // Enregistrer le token FCM
+    // Enregistrer le token FCM + tracer activité du jour
     const { token } = await FirebaseMessaging.getToken();
-    if (token) saveDevice(token, geo);
+    if (token) {
+      saveDevice(token, geo);
+      logActivity(token, geo);
+    }
 
     // Notification reçue en foreground (app ouverte) → petite bannière
     await FirebaseMessaging.addListener('notificationReceived', ({ notification }) => {
@@ -439,6 +442,18 @@ function saveDevice(token, geo) {
       country:      geo.country     || '',
       country_code: geo.countryCode || '',
       city:         geo.city        || '',
+    }),
+  }).catch(() => {});
+}
+
+function logActivity(token, geo) {
+  fetch(API_SERVER + '/server/log_activity.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      token,
+      country:      geo.country     || '',
+      country_code: geo.countryCode || '',
     }),
   }).catch(() => {});
 }

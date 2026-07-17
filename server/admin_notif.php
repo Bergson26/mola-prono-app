@@ -77,10 +77,12 @@ if (!empty($_SESSION['notif_flash'])) {
 
 // ── Data ──────────────────────────────────────────────────────
 define('FILE_DOWNLOADS_M', __DIR__ . '/data/downloads.json');
+define('FILE_ACTIVITY_M',  __DIR__ . '/data/activity.json');
 
 $tokens    = jread_m(FILE_TOKENS_M);
 $notifs    = array_reverse(jread_m(FILE_NOTIFS_M));
 $downloads = jread_m(FILE_DOWNLOADS_M);
+$activity  = jread_m(FILE_ACTIVITY_M);
 
 $total_installs = count($tokens);
 $country_stats  = [];
@@ -109,6 +111,16 @@ $dl_today = $dl_by_day[date('Y-m-d')] ?? 0;
 // Total ouvertures de notifications
 $total_opens = 0;
 foreach (jread_m(FILE_NOTIFS_M) as $n) { $total_opens += intval($n['open_count'] ?? 0); }
+
+// Utilisateurs actifs par jour (14 derniers)
+$au_by_day     = [];
+$today_str     = date('Y-m-d');
+foreach ($activity as $e) {
+    $d = $e['date'] ?? '';
+    if ($d) $au_by_day[$d] = ($au_by_day[$d] ?? 0) + 1;
+}
+krsort($au_by_day);
+$au_today = $au_by_day[$today_str] ?? 0;
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -122,12 +134,12 @@ foreach (jread_m(FILE_NOTIFS_M) as $n) { $total_opens += intval($n['open_count']
       --green: #22c55e; --green-dk: #16a34a;
       --text: #111827; --muted: #6b7280;
       --brd: #e5e7eb; --red: #ef4444; --yellow: #f59e0b;
-      --radius: 12px;
+      --blue: #3b82f6; --radius: 12px;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
-    /* Login */
+    /* ── LOGIN ── */
     .login-page { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
     .login-box { background: var(--bg2); border: 1px solid var(--brd); border-radius: 20px; padding: 40px 32px; width: 100%; max-width: 380px; text-align: center; }
     .login-box h1 { font-size: 22px; font-weight: 800; margin-bottom: 4px; }
@@ -137,41 +149,75 @@ foreach (jread_m(FILE_NOTIFS_M) as $n) { $total_opens += intval($n['open_count']
     .btn-green { width: 100%; padding: 12px; border-radius: 10px; background: linear-gradient(135deg, var(--green-dk), var(--green)); color: #000; font-weight: 800; font-size: 15px; border: none; cursor: pointer; font-family: inherit; }
     .login-error { color: var(--red); font-size: 13px; margin-top: 8px; }
 
-    /* Admin layout */
-    .admin-wrap { max-width: 1000px; margin: 0 auto; padding: 24px 20px 60px; }
-    .admin-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; padding-bottom: 16px; border-bottom: 1px solid var(--brd); }
-    .admin-title { font-size: 20px; font-weight: 900; }
+    /* ── HEADER PLEIN ÉCRAN ── */
+    .admin-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 28px; background: #fff;
+      border-bottom: 2px solid var(--brd); position: sticky; top: 0; z-index: 50;
+    }
+    .admin-title { font-size: 18px; font-weight: 900; display: flex; align-items: center; gap: 8px; }
     .admin-title em { color: var(--green); font-style: normal; }
-    .logout-btn { font-size: 13px; color: var(--muted); text-decoration: none; }
-    .logout-btn:hover { color: var(--red); }
+    .logout-link { font-size: 13px; color: var(--muted); text-decoration: none; padding: 7px 14px; border: 1px solid var(--brd); border-radius: 8px; transition: color .15s; }
+    .logout-link:hover { color: var(--red); border-color: var(--red); }
+
+    /* ── NAV TABS ── */
+    .admin-nav { display: flex; border-bottom: 1px solid var(--brd); padding: 0 28px; background: #fff; }
+    .admin-nav a {
+      display: flex; align-items: center; gap: 6px; padding: 13px 18px;
+      font-size: 14px; font-weight: 700; color: var(--muted); text-decoration: none;
+      border-bottom: 3px solid transparent; margin-bottom: -1px; transition: color .15s;
+    }
+    .admin-nav a:hover { color: var(--text); }
+    .admin-nav a.active { color: var(--green); border-bottom-color: var(--green); }
+
+    /* ── CONTENT ── */
+    .admin-content { padding: 28px 28px 60px; }
 
     /* Flash */
     .flash { padding: 14px 18px; border-radius: var(--radius); margin-bottom: 20px; font-size: 14px; font-weight: 600; }
     .flash.ok  { background: rgba(34,197,94,.1);  border: 1px solid rgba(34,197,94,.3);  color: var(--green); }
     .flash.err { background: rgba(248,113,113,.1); border: 1px solid rgba(248,113,113,.3); color: var(--red); }
 
-    /* Stats row */
-    .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 28px; }
-    .stat-card { background: var(--bg2); border: 1px solid var(--brd); border-radius: var(--radius); padding: 16px; text-align: center; }
-    .stat-num  { font-size: 28px; font-weight: 900; color: var(--green); }
-    .stat-lbl  { font-size: 12px; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: .05em; }
+    /* Stats */
+    .stats-row { display: grid; gap: 14px; margin-bottom: 24px; }
+    .stats-6 { grid-template-columns: repeat(6, 1fr); }
+    .stats-3 { grid-template-columns: repeat(3, 1fr); }
+    @media(max-width:900px){ .stats-6 { grid-template-columns: repeat(3,1fr); } }
+    @media(max-width:600px){ .stats-6,.stats-3 { grid-template-columns: repeat(2,1fr); } }
 
-    /* Panel */
+    .stat-card { background: var(--bg2); border: 1px solid var(--brd); border-radius: var(--radius); padding: 18px 14px; text-align: center; }
+    .stat-num  { font-size: 30px; font-weight: 900; color: var(--green); line-height: 1.1; }
+    .stat-num.blue { color: var(--blue); }
+    .stat-lbl  { font-size: 11px; color: var(--muted); margin-top: 5px; text-transform: uppercase; letter-spacing: .06em; }
+
+    /* Panels */
     .panel { background: var(--bg2); border: 1px solid var(--brd); border-radius: var(--radius); padding: 24px; margin-bottom: 24px; }
-    .panel-title { font-size: 14px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 18px; }
+    .panel-title { font-size: 13px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .07em; margin-bottom: 18px; }
+    .panel-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    @media(max-width:700px){ .panel-grid-2 { grid-template-columns: 1fr; } }
+
+    /* Bar chart rows */
+    .bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
+    .bar-label { font-size: 12px; color: var(--muted); width: 82px; flex-shrink: 0; }
+    .bar-track { flex: 1; background: rgba(0,0,0,.06); border-radius: 4px; height: 14px; overflow: hidden; }
+    .bar-fill  { height: 100%; border-radius: 4px; }
+    .bar-fill.green { background: var(--green); }
+    .bar-fill.blue  { background: var(--blue); }
+    .bar-fill.orange{ background: #f97316; }
+    .bar-val  { font-size: 12px; font-weight: 700; width: 26px; text-align: right; flex-shrink: 0; }
+    .bar-sublabel { font-size: 12px; color: var(--muted); font-weight: 700; margin-bottom: 10px; text-transform: uppercase; letter-spacing: .05em; }
 
     /* Form */
     .form-group { margin-bottom: 16px; }
     .form-group label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; font-weight: 600; }
-    .form-group input[type=text], .form-group textarea, .form-group select {
+    .form-group input[type=text], .form-group textarea {
       width: 100%; padding: 11px 14px; border-radius: 10px; border: 1px solid var(--brd);
       background: var(--bg3); color: var(--text); font-size: 14px; font-family: inherit; outline: none; transition: border-color .2s;
     }
-    .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--green); }
+    .form-group input:focus, .form-group textarea:focus { border-color: var(--green); }
     .form-group textarea { resize: vertical; min-height: 80px; }
     .char-count { font-size: 11px; color: var(--muted); margin-top: 4px; text-align: right; }
 
-    /* Target selector */
     .target-tabs { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
     .target-tab { padding: 8px 16px; border-radius: 20px; border: 1px solid var(--brd); background: var(--bg3); color: var(--muted); font-size: 13px; cursor: pointer; transition: all .2s; font-family: inherit; font-weight: 600; }
     .target-tab.active { background: rgba(34,197,94,.15); border-color: var(--green); color: var(--green); }
@@ -183,20 +229,19 @@ foreach (jread_m(FILE_NOTIFS_M) as $n) { $total_opens += intval($n['open_count']
 
     #user-token-field { display: none; }
     .form-hint { font-size: 12px; color: var(--muted); margin-top: 6px; font-style: italic; }
-
     .send-btn { display: block; width: 100%; padding: 14px; background: linear-gradient(135deg, var(--green-dk), var(--green)); color: #000; font-weight: 800; font-size: 15px; border: none; border-radius: 10px; cursor: pointer; font-family: inherit; margin-top: 6px; transition: opacity .2s; }
     .send-btn:hover { opacity: .9; }
 
     /* Table */
     .table-wrap { overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    th { padding: 10px 14px; text-align: left; color: var(--muted); font-weight: 700; text-transform: uppercase; font-size: 11px; letter-spacing: .05em; border-bottom: 1px solid var(--brd); }
-    td { padding: 11px 14px; border-bottom: 1px solid rgba(255,255,255,.04); }
+    th { padding: 10px 14px; text-align: left; color: var(--muted); font-weight: 700; text-transform: uppercase; font-size: 11px; letter-spacing: .05em; border-bottom: 2px solid var(--brd); white-space: nowrap; }
+    td { padding: 11px 14px; border-bottom: 1px solid var(--brd); }
     tr:last-child td { border-bottom: none; }
-    tr:hover td { background: rgba(0,0,0,.02); }
-    .badge-green { background: rgba(34,197,94,.15); color: var(--green); padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; }
-    .badge-red   { background: rgba(248,113,113,.15); color: var(--red); padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; }
-    .badge-muted { background: var(--bg3); color: var(--muted); padding: 2px 8px; border-radius: 6px; font-size: 11px; }
+    tr:hover td { background: var(--bg2); }
+    .badge-green { background: rgba(34,197,94,.15); color: var(--green-dk); padding: 3px 9px; border-radius: 6px; font-size: 11px; font-weight: 700; }
+    .badge-red   { background: rgba(248,113,113,.15); color: var(--red); padding: 3px 9px; border-radius: 6px; font-size: 11px; font-weight: 700; }
+    .badge-muted { background: var(--bg3); color: var(--muted); padding: 3px 9px; border-radius: 6px; font-size: 11px; }
     .token-short { font-family: monospace; font-size: 11px; color: var(--muted); cursor: pointer; }
     .open-rate { font-weight: 700; color: var(--green); }
     .empty-row td { text-align: center; color: var(--muted); padding: 32px; }
@@ -220,29 +265,35 @@ foreach (jread_m(FILE_NOTIFS_M) as $n) { $total_opens += intval($n['open_count']
 
 <?php else: ?>
 <!-- ═══ ADMIN PANEL ═══ -->
-<div class="admin-wrap">
 
-  <div class="admin-header">
-    <h1 class="admin-title">⚙️ Mola <em>Prono</em> — Admin</h1>
-    <a href="?logout=1" class="logout-btn">Déconnexion →</a>
-  </div>
+<!-- Header plein écran -->
+<header class="admin-header">
+  <div class="admin-title">⚙️ Admin — Mola <em>Prono</em></div>
+  <a href="?logout=1" class="logout-link">Déconnexion →</a>
+</header>
 
-  <!-- Navigation entre les 3 panels -->
-  <nav style="display:flex;gap:0;border-bottom:1px solid var(--brd);margin-bottom:24px">
-    <a href="../admin.php" style="padding:12px 20px;font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;border-bottom:3px solid transparent">📊 Visiteurs</a>
-    <a href="../admin_pronos.php" style="padding:12px 20px;font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;border-bottom:3px solid transparent">⚽ Pronostics</a>
-    <a href="admin_notif.php" style="padding:12px 20px;font-size:14px;font-weight:700;color:var(--green);text-decoration:none;border-bottom:3px solid var(--green)">🔔 Notifications</a>
-  </nav>
+<!-- Navigation -->
+<nav class="admin-nav">
+  <a href="../admin.php">📊 Visiteurs</a>
+  <a href="../admin_pronos.php">⚽ Pronostics</a>
+  <a href="admin_notif.php" class="active">🔔 Notifications</a>
+</nav>
+
+<div class="admin-content">
 
   <?php if ($flash): ?>
   <div class="flash <?= $flash_type ?>"><?= htmlspecialchars($flash) ?></div>
   <?php endif; ?>
 
-  <!-- Stats générales -->
-  <div class="stats-row" style="grid-template-columns:repeat(3,1fr);margin-bottom:14px">
+  <!-- ── KPIs ── -->
+  <div class="stats-row stats-6">
+    <div class="stat-card">
+      <div class="stat-num blue"><?= $au_today ?></div>
+      <div class="stat-lbl">Actifs aujourd'hui</div>
+    </div>
     <div class="stat-card">
       <div class="stat-num"><?= $total_installs ?></div>
-      <div class="stat-lbl">Appareils actifs</div>
+      <div class="stat-lbl">Appareils enregistrés</div>
     </div>
     <div class="stat-card">
       <div class="stat-num"><?= $total_downloads ?></div>
@@ -252,8 +303,6 @@ foreach (jread_m(FILE_NOTIFS_M) as $n) { $total_opens += intval($n['open_count']
       <div class="stat-num"><?= $dl_today ?></div>
       <div class="stat-lbl">DL aujourd'hui</div>
     </div>
-  </div>
-  <div class="stats-row" style="grid-template-columns:repeat(3,1fr);margin-bottom:28px">
     <div class="stat-card">
       <div class="stat-num"><?= count($notifs) ?></div>
       <div class="stat-lbl">Notifs envoyées</div>
@@ -262,53 +311,47 @@ foreach (jread_m(FILE_NOTIFS_M) as $n) { $total_opens += intval($n['open_count']
       <div class="stat-num"><?= $total_opens ?></div>
       <div class="stat-lbl">Ouvertures notifs</div>
     </div>
-    <div class="stat-card">
-      <div class="stat-num"><?= count($country_stats) ?></div>
-      <div class="stat-lbl">Pays représentés</div>
-    </div>
   </div>
 
-  <!-- Stats téléchargements APK -->
-  <?php if (!empty($dl_by_day) || !empty($dl_by_country)): ?>
-  <div class="panel" style="margin-bottom:24px">
-    <div class="panel-title">📥 Téléchargements APK</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;flex-wrap:wrap">
+  <!-- ── GRAPHIQUES ── -->
+  <div class="panel">
+    <div class="panel-title">📈 Activité</div>
+    <div class="panel-grid-2">
 
-      <!-- Par jour -->
+      <!-- Utilisateurs actifs par jour -->
       <div>
-        <p style="font-size:12px;color:var(--muted);font-weight:700;margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em">Par jour (14 derniers)</p>
+        <p class="bar-sublabel">👤 Utilisateurs actifs (14 derniers jours)</p>
+        <?php if (empty($au_by_day)): ?>
+          <p style="font-size:13px;color:var(--muted)">Aucune donnée (données disponibles dès la première ouverture de l'app)</p>
+        <?php else:
+          $max_au = max(array_values($au_by_day));
+          foreach (array_slice($au_by_day, 0, 14, true) as $date => $cnt): ?>
+        <div class="bar-row">
+          <span class="bar-label"><?= htmlspecialchars($date) ?></span>
+          <div class="bar-track"><div class="bar-fill blue" style="width:<?= $max_au ? round($cnt/$max_au*100) : 0 ?>%"></div></div>
+          <span class="bar-val"><?= $cnt ?></span>
+        </div>
+        <?php endforeach; endif; ?>
+      </div>
+
+      <!-- Téléchargements par jour -->
+      <div>
+        <p class="bar-sublabel">📥 Téléchargements APK (14 derniers jours)</p>
         <?php if (empty($dl_by_day)): ?>
           <p style="font-size:13px;color:var(--muted)">Aucun téléchargement</p>
-        <?php else: $max_dl = max(array_values($dl_by_day)); foreach (array_slice($dl_by_day, 0, 14, true) as $date => $cnt): ?>
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
-          <span style="font-size:12px;color:var(--muted);width:80px;flex-shrink:0"><?= htmlspecialchars($date) ?></span>
-          <div style="flex:1;background:rgba(0,0,0,.06);border-radius:4px;height:14px;overflow:hidden">
-            <div style="height:100%;background:var(--green);width:<?= $max_dl ? round($cnt/$max_dl*100) : 0 ?>%;border-radius:4px"></div>
-          </div>
-          <span style="font-size:12px;font-weight:700;width:24px;text-align:right"><?= $cnt ?></span>
-        </div>
-        <?php endforeach; endif; ?>
-      </div>
-
-      <!-- Par pays -->
-      <div>
-        <p style="font-size:12px;color:var(--muted);font-weight:700;margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em">Par pays (top 10)</p>
-        <?php if (empty($dl_by_country)): ?>
-          <p style="font-size:13px;color:var(--muted)">Aucun téléchargement</p>
-        <?php else: $max_c = max(array_values($dl_by_country)); foreach (array_slice($dl_by_country, 0, 10, true) as $name => $cnt): ?>
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
-          <span style="font-size:12px;color:var(--muted);width:80px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><?= htmlspecialchars($name) ?></span>
-          <div style="flex:1;background:rgba(0,0,0,.06);border-radius:4px;height:14px;overflow:hidden">
-            <div style="height:100%;background:#3b82f6;width:<?= $max_c ? round($cnt/$max_c*100) : 0 ?>%;border-radius:4px"></div>
-          </div>
-          <span style="font-size:12px;font-weight:700;width:24px;text-align:right"><?= $cnt ?></span>
+        <?php else:
+          $max_dl = max(array_values($dl_by_day));
+          foreach (array_slice($dl_by_day, 0, 14, true) as $date => $cnt): ?>
+        <div class="bar-row">
+          <span class="bar-label"><?= htmlspecialchars($date) ?></span>
+          <div class="bar-track"><div class="bar-fill green" style="width:<?= $max_dl ? round($cnt/$max_dl*100) : 0 ?>%"></div></div>
+          <span class="bar-val"><?= $cnt ?></span>
         </div>
         <?php endforeach; endif; ?>
       </div>
 
     </div>
   </div>
-  <?php endif; ?>
 
   <!-- ── ENVOYER ── -->
   <div class="panel">
@@ -430,7 +473,7 @@ foreach (jread_m(FILE_NOTIFS_M) as $n) { $total_opens += intval($n['open_count']
     </div>
   </div>
 
-</div>
+</div><!-- /.admin-content -->
 
 <script>
 function updateCount(fid, cid, max) {
