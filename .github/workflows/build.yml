@@ -97,6 +97,7 @@ jobs:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
+          set -o pipefail
           if [ -n "$KEYSTORE_B64" ]; then
             echo "→ Build RELEASE signé"
             echo "$KEYSTORE_B64" | base64 -d > android/app/mola-prono.keystore
@@ -104,11 +105,19 @@ jobs:
               -Pandroid.injected.signing.store.file=$(pwd)/app/mola-prono.keystore \
               -Pandroid.injected.signing.store.password=$KEYSTORE_PASSWORD \
               -Pandroid.injected.signing.key.alias=mola-prono \
-              -Pandroid.injected.signing.key.password=$KEY_PASSWORD
+              -Pandroid.injected.signing.key.password=$KEY_PASSWORD \
+              2>&1 | tee /tmp/build.log
           else
             echo "→ Build DEBUG (keystore non configuré)"
-            cd android && ./gradlew assembleDebug --no-daemon
+            cd android && ./gradlew assembleDebug --no-daemon 2>&1 | tee /tmp/build.log
           fi
+
+      - name: Afficher erreurs Java si build échoué
+        if: failure()
+        run: |
+          echo "=== ERREURS JAVAC ==="
+          grep -n "error:" /tmp/build.log | head -40 || echo "Aucune ligne 'error:' trouvée"
+          echo "=== FIN ==="
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
