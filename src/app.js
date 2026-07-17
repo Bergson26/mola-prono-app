@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   setHeaderDate();
+  logActivityOnStart();
   loadPronostics();
   renderNotifPage();
   initNotifications();
@@ -443,6 +444,29 @@ function saveDevice(token, geo) {
       country_code: geo.countryCode || '',
       city:         geo.city        || '',
     }),
+  }).catch(() => {});
+}
+
+function getDeviceId() {
+  let id = localStorage.getItem('mola_device_id');
+  if (!id) {
+    id = 'dev_' + Math.random().toString(36).substr(2, 12) + Date.now().toString(36);
+    localStorage.setItem('mola_device_id', id);
+  }
+  return id;
+}
+
+function logActivityOnStart() {
+  const today = new Date().toISOString().slice(0, 10);
+  const key   = 'mola_activity_' + today;
+  if (localStorage.getItem(key)) return; // déjà loggé aujourd'hui
+  const deviceId = getDeviceId();
+  fetch(API_SERVER + '/server/log_activity.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ token: deviceId, country: '', country_code: '' }),
+  }).then(() => {
+    localStorage.setItem(key, '1');
   }).catch(() => {});
 }
 
