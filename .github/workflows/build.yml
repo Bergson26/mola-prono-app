@@ -42,33 +42,6 @@ jobs:
       - name: Sync Capacitor
         run: npx cap sync android
 
-      - name: Injecter le service notification natif
-        run: |
-          JAVA_DIR="android/app/src/main/java/online/molaprono/app"
-          cp resources/MyFirebaseMessagingService.java "$JAVA_DIR/"
-          cp resources/MainActivity.java               "$JAVA_DIR/"
-
-          # Exposer firebase-messaging sur le classpath app (le plugin l'a en implementation non-transitive)
-          sed -i \
-            's|dependencies {|dependencies {\n    implementation "com.google.firebase:firebase-messaging:25.0.1"|' \
-            android/app/build.gradle
-
-          # Ajouter xmlns:tools au manifest (requis pour tools:node="remove")
-          sed -i \
-            's|xmlns:android="http://schemas.android.com/apk/res/android"|xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"|' \
-            android/app/src/main/AndroidManifest.xml
-
-          # Supprimer le service Capawesome via tools:node="remove" + injecter notre service unique
-          # Garantit que notre service est le SEUL handler FCM dans l'APK final
-          sed -i \
-            's|    </application>|        <service android:name="io.capawesome.capacitorjs.plugins.firebase.messaging.MessagingService" tools:node="remove"\/>\n        <service android:name=".MyFirebaseMessagingService" android:exported="false"><intent-filter><action android:name="com.google.firebase.MESSAGING_EVENT"\/><\/intent-filter><\/service>\n    </application>|' \
-            android/app/src/main/AndroidManifest.xml
-
-          echo "=== VÉRIFICATION MANIFEST (fin du fichier) ==="
-          tail -25 android/app/src/main/AndroidManifest.xml
-          echo "=== VÉRIFICATION build.gradle ==="
-          grep "firebase-messaging" android/app/build.gradle
-
       - name: Generate app icons from logo
         run: |
           sudo apt-get install -y librsvg2-bin
@@ -129,13 +102,6 @@ jobs:
             echo "→ Build DEBUG (keystore non configuré)"
             cd android && ./gradlew assembleDebug --no-daemon 2>&1 | tee /tmp/build.log
           fi
-
-      - name: Afficher erreurs Java si build échoué
-        if: failure()
-        run: |
-          echo "=== ERREURS JAVAC ==="
-          grep -n "error:" /tmp/build.log | head -40 || echo "Aucune ligne 'error:' trouvée"
-          echo "=== FIN ==="
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
