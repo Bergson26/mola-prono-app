@@ -297,7 +297,7 @@ $au_today = $au_by_day[$today_str] ?? 0;
     </div>
     <div class="stat-card">
       <div class="stat-num"><?= $total_downloads ?></div>
-      <div class="stat-lbl">Téléchargements APK</div>
+      <div class="stat-lbl">Téléchargements application mobile</div>
     </div>
     <div class="stat-card">
       <div class="stat-num"><?= $dl_today ?></div>
@@ -336,7 +336,7 @@ $au_today = $au_by_day[$today_str] ?? 0;
 
       <!-- Téléchargements par jour -->
       <div>
-        <p class="bar-sublabel">📥 Téléchargements APK (14 derniers jours)</p>
+        <p class="bar-sublabel">📥 Téléchargements application mobile (14 derniers jours)</p>
         <?php if (empty($dl_by_day)): ?>
           <p style="font-size:13px;color:var(--muted)">Aucun téléchargement</p>
         <?php else:
