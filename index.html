@@ -12,6 +12,16 @@
 </head>
 <body>
 
+<!-- ═══ POPUP NOTIFICATION (tap depuis barre) ═══ -->
+<div id="notif-popup" class="notif-popup-overlay" onclick="closeNotifPopup()" style="display:none">
+  <div class="notif-popup-box" onclick="event.stopPropagation()">
+    <span class="notif-popup-icon">🔔</span>
+    <div class="notif-popup-title" id="notif-popup-title"></div>
+    <div class="notif-popup-body"  id="notif-popup-body"></div>
+    <button class="notif-popup-btn" onclick="closeNotifPopup()">OK</button>
+  </div>
+</div>
+
 <!-- ═══ BANNIÈRE IN-APP ═══ -->
 <div id="notif-banner" class="in-app-notif" onclick="dismissBanner()">
   <div class="notif-banner-inner">
@@ -21,6 +31,18 @@
       <span id="notif-banner-body"></span>
     </div>
     <span class="notif-banner-close">✕</span>
+  </div>
+</div>
+
+<!-- ═══ PERMISSION NOTIFICATIONS REFUSÉE ═══ -->
+<div id="perm-denied" class="perm-denied-banner" style="display:none">
+  <div class="perm-denied-inner">
+    <span class="perm-denied-icon">🔕</span>
+    <div class="perm-denied-text">
+      <strong>Notifications désactivées</strong>
+      <span>Activez-les pour recevoir les pronostics du jour</span>
+    </div>
+    <button class="perm-denied-btn" onclick="retryPermission()">Activer</button>
   </div>
 </div>
 

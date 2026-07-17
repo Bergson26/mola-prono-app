@@ -365,7 +365,14 @@ function escHtml(s) {
 async function initNotifications() {
   try {
     const perm = await FirebaseMessaging.requestPermissions();
-    if (perm.receive !== 'granted') return;
+    if (perm.receive !== 'granted') {
+      const denied = document.getElementById('perm-denied');
+      if (denied) denied.style.display = '';
+      return;
+    }
+
+    const denied = document.getElementById('perm-denied');
+    if (denied) denied.style.display = 'none';
 
     // Topic principal : tous les utilisateurs
     await FirebaseMessaging.subscribeToTopic({ topic: 'tous' });
@@ -383,7 +390,7 @@ async function initNotifications() {
     const { token } = await FirebaseMessaging.getToken();
     if (token) saveDevice(token, geo);
 
-    // Notification reçue (app ouverte)
+    // Notification reçue en foreground (app ouverte) → petite bannière
     await FirebaseMessaging.addListener('notificationReceived', ({ notification }) => {
       const title = notification.title || 'Mola Prono';
       const body  = notification.body  || '';
@@ -391,28 +398,37 @@ async function initNotifications() {
       showBanner(title, body);
     });
 
-    // Tap sur une notification (app en arrière-plan)
+    // Tap sur une notification depuis la barre → popup modal + onglet notifs
     await FirebaseMessaging.addListener('notificationActionPerformed', ({ notification }) => {
-      const data = notification.data || {};
+      const data  = notification.data  || {};
+      const title = notification.title || data.title || 'Mola Prono';
+      const body  = notification.body  || data.body  || '';
       if (data.notif_id) trackOpen(data.notif_id);
-      if (notification.title) saveNotifToHistory(notification.title, notification.body || '');
+      saveNotifToHistory(title, body);
+      showNotifPopup(title, body);
+      renderNotifPage();
       updateNotifBadge();
     });
 
-    // Notification initiale (démarrage froid via tap)
+    // Démarrage froid (app tuée, tap sur notification)
     try {
       const initial = await FirebaseMessaging.getInitialNotification();
       if (initial && initial.notification) {
-        const data = initial.notification.data || {};
+        const data  = initial.notification.data  || {};
+        const title = initial.notification.title || data.title || 'Mola Prono';
+        const body  = initial.notification.body  || data.body  || '';
         if (data.notif_id) trackOpen(data.notif_id);
-        if (initial.notification.title)
-          saveNotifToHistory(initial.notification.title, initial.notification.body || '');
+        saveNotifToHistory(title, body);
+        setTimeout(() => showNotifPopup(title, body), 600);
+        renderNotifPage();
       }
     } catch (_) {}
 
     updateNotifBadge();
   } catch (_) {}
 }
+
+window.retryPermission = function () { initNotifications(); };
 
 function saveDevice(token, geo) {
   fetch(API_SERVER + '/server/save_token.php', {
@@ -452,10 +468,27 @@ window.dismissBanner = function () {
   if (bannerTimer) clearTimeout(bannerTimer);
 };
 
+// ── POPUP MODAL NOTIFICATION ──────────────────────────────────
+function showNotifPopup(title, body) {
+  const popup = document.getElementById('notif-popup');
+  if (!popup) return;
+  document.getElementById('notif-popup-title').textContent = title;
+  document.getElementById('notif-popup-body').textContent  = body;
+  popup.style.display = 'flex';
+}
+
+window.closeNotifPopup = function () {
+  const popup = document.getElementById('notif-popup');
+  if (popup) popup.style.display = 'none';
+  // Aller sur l'onglet notifications
+  const notifBtn = document.querySelectorAll('.nav-btn')[1];
+  if (notifBtn) notifBtn.click();
+};
+
 // ── RÉCEPTION NATIVE (notification système → popup in-app) ────
 window.onNativeNotifTap = function (title, body) {
   saveNotifToHistory(title, body);
-  showBanner(title, body);
+  showNotifPopup(title, body);
   renderNotifPage();
 };
 
