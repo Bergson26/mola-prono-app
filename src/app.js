@@ -452,6 +452,13 @@ window.dismissBanner = function () {
   if (bannerTimer) clearTimeout(bannerTimer);
 };
 
+// ── RÉCEPTION NATIVE (notification système → popup in-app) ────
+window.onNativeNotifTap = function (title, body) {
+  saveNotifToHistory(title, body);
+  showBanner(title, body);
+  renderNotifPage();
+};
+
 // ── PARTAGER L'APPLICATION ────────────────────────────────────
 window.shareApp = async function () {
   const url  = 'https://sms.mola-prono.online';

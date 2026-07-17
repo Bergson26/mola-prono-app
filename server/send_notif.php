@@ -81,21 +81,9 @@ function fcm_send_topic(string $title, string $body, string $topic, string $noti
 
     $payload = json_encode([
         'message' => [
-            'topic'        => $topic,
-            'notification' => ['title' => $title, 'body'  => $body],
-            'android'      => [
-                'priority'     => 'high',
-                'notification' => [
-                    'sound'                   => 'default',
-                    'default_sound'           => true,
-                    'default_vibrate_timings' => true,
-                    'channel_id'              => 'firebase_default',
-                    'sticky'                  => true,
-                    'notification_priority'   => 'PRIORITY_HIGH',
-                    'visibility'              => 'PUBLIC',
-                ],
-            ],
-            'data' => [
+            'topic'   => $topic,
+            'android' => ['priority' => 'high'],
+            'data'    => [
                 'notif_id' => $notif_id ?: uniqid(),
                 'title'    => $title,
                 'body'     => $body,
@@ -114,21 +102,9 @@ function fcm_send_token(string $device_token, string $title, string $body, strin
 
     $payload = json_encode([
         'message' => [
-            'token'        => $device_token,
-            'notification' => ['title' => $title, 'body'  => $body],
-            'android'      => [
-                'priority'     => 'high',
-                'notification' => [
-                    'sound'                   => 'default',
-                    'default_sound'           => true,
-                    'default_vibrate_timings' => true,
-                    'channel_id'              => 'firebase_default',
-                    'sticky'                  => true,
-                    'notification_priority'   => 'PRIORITY_HIGH',
-                    'visibility'              => 'PUBLIC',
-                ],
-            ],
-            'data' => [
+            'token'   => $device_token,
+            'android' => ['priority' => 'high'],
+            'data'    => [
                 'notif_id' => $notif_id ?: uniqid(),
                 'title'    => $title,
                 'body'     => $body,
