@@ -81,9 +81,13 @@ function fcm_send_topic(string $title, string $body, string $topic, string $noti
 
     $payload = json_encode([
         'message' => [
-            'topic'   => $topic,
-            'android' => ['priority' => 'HIGH'],
-            'data'    => [
+            'topic'        => $topic,
+            'notification' => ['title' => $title, 'body' => $body],
+            'android'      => [
+                'priority'     => 'HIGH',
+                'notification' => ['channel_id' => 'mola_prono_channel', 'sound' => 'default'],
+            ],
+            'data' => [
                 'notif_id' => $notif_id ?: uniqid(),
                 'title'    => $title,
                 'body'     => $body,
@@ -102,9 +106,13 @@ function fcm_send_token(string $device_token, string $title, string $body, strin
 
     $payload = json_encode([
         'message' => [
-            'token'   => $device_token,
-            'android' => ['priority' => 'HIGH'],
-            'data'    => [
+            'token'        => $device_token,
+            'notification' => ['title' => $title, 'body' => $body],
+            'android'      => [
+                'priority'     => 'HIGH',
+                'notification' => ['channel_id' => 'mola_prono_channel', 'sound' => 'default'],
+            ],
+            'data' => [
                 'notif_id' => $notif_id ?: uniqid(),
                 'title'    => $title,
                 'body'     => $body,
