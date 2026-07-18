@@ -24,9 +24,9 @@ SIGNING_CONFIGS = (
 src = src.replace('android {', PROPS_READER + 'android {', 1)
 src = src.replace('    buildTypes {', SIGNING_CONFIGS + '    buildTypes {', 1)
 src = re.sub(
-    r'(release\s*\{)',
+    r'(buildTypes\s*\{[^{]*?release\s*\{)',
     r'\1\n            signingConfig signingConfigs.release',
-    src, count=1
+    src, count=1, flags=re.DOTALL
 )
 
 with open('android/app/build.gradle', 'w') as f:
