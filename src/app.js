@@ -1,5 +1,6 @@
 import { FirebaseMessaging } from '@capacitor-firebase/messaging';
 import { Browser } from '@capacitor/browser';
+import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Share } from '@capacitor/share';
 import './style.css';
 
@@ -552,12 +553,24 @@ window.onNativeNotifTap = function (title, body) {
 
 // ── PARTAGER L'APPLICATION ────────────────────────────────────
 window.shareApp = async function () {
+  const shareData = {
+    title: 'Mola Prono',
+    text: 'Pronostics football gratuits',
+    url: 'https://sms.mola-prono.online',
+    dialogTitle: 'Partager Mola Prono',
+  };
   try {
-    await Share.share({
-      title: 'Mola Prono',
-      text: 'Pronostics football gratuits + notifications push quotidiennes',
-      url: 'https://sms.mola-prono.online',
-      dialogTitle: 'Partager Mola Prono',
+    const resp   = await fetch('/logo.png');
+    const blob   = await resp.blob();
+    const base64 = await new Promise(resolve => {
+      const r = new FileReader();
+      r.onloadend = () => resolve(r.result.split(',')[1]);
+      r.readAsDataURL(blob);
     });
-  } catch (_) {}
+    await Filesystem.writeFile({ path: 'share-logo.png', data: base64, directory: Directory.Cache });
+    const { uri } = await Filesystem.getUri({ path: 'share-logo.png', directory: Directory.Cache });
+    await Share.share({ ...shareData, files: [uri] });
+  } catch (_) {
+    try { await Share.share(shareData); } catch (__) {}
+  }
 };
