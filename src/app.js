@@ -4,11 +4,11 @@ import { Share } from '@capacitor/share';
 import './style.css';
 
 // Serveur API mobile (tokens FCM, stats, pronos manuels avec CORS)
-const API_SERVER    = 'https://sms.mola-prono.online';
+const API_SERVER    = 'https://mola-prono.online';
 // Serveur data : data.js via <script> tag (pas de CORS requis pour les balises script)
 const DATA_SERVER   = 'https://mola-prono.online';
 // Serveur mobile : get_manual_pronos.php + get_suppressed.php avec header CORS
-const MOBILE_SERVER = 'https://sms.mola-prono.online';
+const MOBILE_SERVER = 'https://mola-prono.online';
 
 const WA_LINK   = 'https://whatsapp.com/channel/0029VbBrwdH1noz3OjnU5B2V';
 const NOTIF_KEY = 'mola_notifications';
@@ -31,6 +31,28 @@ document.addEventListener('DOMContentLoaded', () => {
   renderNotifPage();
   initNotifications();
   scheduleAutoClear();
+
+  // Quand l'app revient au premier plan depuis l'arrière-plan : rafraîchir les notifs
+  document.addEventListener('visibilitychange', async () => {
+    if (document.visibilityState === 'visible') {
+      try {
+        const result = await FirebaseMessaging.getDeliveredNotifications();
+        (result.notifications || []).forEach(n => {
+          const title = n.title || (n.data && n.data.title) || 'Mola Prono';
+          const body  = n.body  || (n.data && n.data.body)  || '';
+          if (!title && !body) return;
+          const history = getNotifHistory();
+          const recentDupe = history.some(h =>
+            h.title === title && h.body === body &&
+            Date.now() - new Date(h.date).getTime() < 120000
+          );
+          if (!recentDupe) saveNotifToHistory(title, body);
+        });
+      } catch (_) {}
+      renderNotifPage();
+      updateNotifBadge();
+    }
+  });
 });
 
 // ── ONGLETS ──────────────────────────────────────────────────
@@ -396,12 +418,14 @@ async function initNotifications() {
       logActivity(token, geo);
     }
 
-    // Notification reçue en foreground (app ouverte) → petite bannière
+    // Notification reçue en foreground (app ouverte) → petite bannière + mise à jour liste
     await FirebaseMessaging.addListener('notificationReceived', ({ notification }) => {
       const title = notification.title || 'Mola Prono';
       const body  = notification.body  || '';
       saveNotifToHistory(title, body);
       showBanner(title, body);
+      renderNotifPage();
+      updateNotifBadge();
     });
 
     // Tap sur une notification depuis la barre → popup modal + onglet notifs
@@ -556,7 +580,7 @@ window.shareApp = async function () {
     await Share.share({
       title: 'Mola Prono',
       text: 'Pronostics football gratuits',
-      url: 'https://sms.mola-prono.online',
+      url: 'https://mola-prono.online',
       dialogTitle: 'Partager Mola Prono',
     });
   } catch (_) {}
