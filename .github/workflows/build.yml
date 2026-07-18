@@ -86,7 +86,7 @@ jobs:
         env:
           KEYSTORE_B64: ${{ secrets.KEYSTORE_BASE64 }}
         run: |
-          echo "$KEYSTORE_B64" | base64 -d > $GITHUB_WORKSPACE/mola-prono.keystore
+          printf '%s' "$KEYSTORE_B64" | base64 -d > $GITHUB_WORKSPACE/mola-prono.keystore
           echo "Keystore size: $(wc -c < $GITHUB_WORKSPACE/mola-prono.keystore) bytes"
 
       - name: Configure release signing
@@ -95,53 +95,11 @@ jobs:
           KEY_ALIAS:  ${{ secrets.KEY_ALIAS }}
           KEY_PASS:   ${{ secrets.KEY_PASS }}
         run: |
-          # 1. Écrire keystore.properties dans android/
-          cat > android/keystore.properties << EOF
-          storeFile=$GITHUB_WORKSPACE/mola-prono.keystore
-          storePassword=${STORE_PASS}
-          keyAlias=${KEY_ALIAS}
-          keyPassword=${KEY_PASS}
-          EOF
-
-          # 2. Injecter signingConfig dans android/app/build.gradle via Python
-          python3 << 'PYEOF'
-          import re
-
-          with open('android/app/build.gradle', 'r') as f:
-              src = f.read()
-
-          PROPS_READER = '''
-def keystoreProps = new Properties()
-def propsFile = rootProject.file('keystore.properties')
-if (propsFile.exists()) { propsFile.withInputStream { keystoreProps.load(it) } }
-'''
-          SIGNING_CONFIGS = '''    signingConfigs {
-              release {
-                  storeFile     file(keystoreProps.getProperty('storeFile', ''))
-                  storePassword keystoreProps.getProperty('storePassword', '')
-                  keyAlias      keystoreProps.getProperty('keyAlias', '')
-                  keyPassword   keystoreProps.getProperty('keyPassword', '')
-              }
-          }
-'''
-          # Insérer le lecteur de propriétés avant android {
-          src = src.replace('android {', PROPS_READER + 'android {', 1)
-
-          # Insérer signingConfigs avant buildTypes {
-          src = src.replace('    buildTypes {', SIGNING_CONFIGS + '    buildTypes {', 1)
-
-          # Référencer signingConfig dans le bloc release
-          src = re.sub(
-              r'(release\s*\{)',
-              r'\1\n            signingConfig signingConfigs.release',
-              src, count=1
-          )
-
-          with open('android/app/build.gradle', 'w') as f:
-              f.write(src)
-
-          print("build.gradle signingConfig injecté avec succès")
-          PYEOF
+          printf 'storeFile=%s\nstorePassword=%s\nkeyAlias=%s\nkeyPassword=%s\n' \
+            "$GITHUB_WORKSPACE/mola-prono.keystore" \
+            "$STORE_PASS" "$KEY_ALIAS" "$KEY_PASS" \
+            > android/keystore.properties
+          python3 scripts/patch_signing.py
 
       - name: Build APK release + AAB release
         run: |
