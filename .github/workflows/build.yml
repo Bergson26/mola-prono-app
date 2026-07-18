@@ -44,7 +44,7 @@ jobs:
 
       - name: Generate app icons from logo
         run: |
-          sudo apt-get install -y librsvg2-bin
+          sudo apt-get install -y imagemagick
           for size in 48 72 96 144 192; do
             case $size in
               48)  dir="mipmap-mdpi"    ;;
@@ -53,12 +53,12 @@ jobs:
               144) dir="mipmap-xxhdpi"  ;;
               192) dir="mipmap-xxxhdpi" ;;
             esac
-            rsvg-convert -w $size -h $size resources/icon.svg \
-              -o android/app/src/main/res/${dir}/ic_launcher.png
-            rsvg-convert -w $size -h $size resources/icon.svg \
-              -o android/app/src/main/res/${dir}/ic_launcher_round.png
-            rsvg-convert -w $size -h $size resources/icon.svg \
-              -o android/app/src/main/res/${dir}/ic_launcher_foreground.png
+            convert logo.png -resize ${size}x${size} \
+              android/app/src/main/res/${dir}/ic_launcher.png
+            convert logo.png -resize ${size}x${size} \
+              android/app/src/main/res/${dir}/ic_launcher_round.png
+            convert logo.png -resize ${size}x${size} \
+              android/app/src/main/res/${dir}/ic_launcher_foreground.png
           done
           # Supprimer les adaptive icons XML qui ignorent nos PNG
           rm -f android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
@@ -66,8 +66,8 @@ jobs:
 
       - name: Configure splash screen (logo Mola Prono)
         run: |
-          rsvg-convert -w 288 -h 288 resources/icon.svg \
-            -o android/app/src/main/res/drawable/ic_splash.png
+          convert logo.png -resize 288x288 \
+            android/app/src/main/res/drawable/ic_splash.png
           find android/app/src/main/res -name "splash.*" -delete
           printf '%s\n' \
             '<?xml version="1.0" encoding="utf-8"?>' \

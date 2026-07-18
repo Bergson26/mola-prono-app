@@ -87,6 +87,7 @@ body {
   font-weight: 900;
   letter-spacing: -.03em;
   line-height: 1;
+  color: #ffffff;
 }
 .app-title em { color: var(--blue); font-style: normal; }
 
@@ -98,7 +99,7 @@ body {
   margin-top: 2px;
 }
 
-.header-right { display: flex; align-items: center; gap: 8px; }
+.header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
 
 .header-date {
   font-size: 11px;
@@ -953,12 +954,14 @@ body {
   border: 1px solid rgba(29,78,216,.3);
   color: var(--text);
   border-radius: 8px;
-  width: 34px; height: 34px;
-  display: flex; align-items: center; justify-content: center;
+  display: flex; align-items: center; justify-content: center; gap: 5px;
   cursor: pointer;
-  flex-shrink: 0;
+  padding: 5px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: inherit;
+  white-space: nowrap;
   transition: background .15s;
-  padding: 0;
 }
 .header-share-btn:active { background: rgba(29,78,216,.35); }
 
