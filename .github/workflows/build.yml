@@ -91,13 +91,12 @@ jobs:
 
       - name: Configure release signing
         env:
-          STORE_PASS: ${{ secrets.KEYSTORE_PASS }}
-          KEY_ALIAS:  ${{ secrets.KEY_ALIAS }}
-          KEY_PASS:   ${{ secrets.KEY_PASS }}
+          STORE_PASS: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_PASS:   ${{ secrets.KEY_PASSWORD }}
         run: |
           printf 'storeFile=%s\nstorePassword=%s\nkeyAlias=%s\nkeyPassword=%s\n' \
             "$GITHUB_WORKSPACE/mola-prono.keystore" \
-            "$STORE_PASS" "$KEY_ALIAS" "$KEY_PASS" \
+            "$STORE_PASS" "mola-prono" "$KEY_PASS" \
             > android/keystore.properties
           python3 scripts/patch_signing.py
 
