@@ -661,57 +661,6 @@ body {
   color: rgba(90,115,148,.7);
 }
 
-/* ═══════════════════════════════════════
-   PROMO BANNER
-═══════════════════════════════════════ */
-.promo-banner {
-  margin: 14px 14px 0;
-  background: linear-gradient(160deg, #0d1a30 0%, #0d1a40 60%, #07101e 100%);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 14px;
-}
-
-.promo-logos {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-
-.promo-logo-item img {
-  height: 28px;
-  width: auto;
-  max-width: 78px;
-  object-fit: contain;
-  border-radius: 6px;
-  background: #fff;
-  padding: 3px 7px;
-}
-
-.promo-text {
-  font-size: 12px;
-  color: var(--text);
-  line-height: 1.6;
-  text-align: center;
-}
-
-.promo-code {
-  display: inline-block;
-  background: var(--yellow);
-  color: #000;
-  font-size: 12px;
-  font-weight: 900;
-  padding: 1px 6px;
-  border-radius: 4px;
-  letter-spacing: .05em;
-}
-
-.promo-bonus {
-  color: #60a5fa;
-  font-weight: 700;
-}
 
 /* ═══════════════════════════════════════
    BOTTOM NAVIGATION
