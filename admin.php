@@ -56,8 +56,8 @@ $logged = isset($_SESSION['admin']);
     --bg2:   #eef0f4;
     --card:  #ffffff;
     --card2: #f0f2f6;
-    --green: #16a34a;
-    --gdk:   #15803d;
+    --blue: #1d4ed8;
+    --gdk: #1e3a8a;
     --text:  #111827;
     --muted: #6b7280;
     --brd:   rgba(0,0,0,.1);
@@ -82,14 +82,14 @@ $logged = isset($_SESSION['admin']);
     border: 1px solid var(--brd); background: var(--bg2);
     color: var(--text); font-size: 15px; margin-bottom: 14px; outline: none;
   }
-  .login-box input[type=password]:focus { border-color: var(--green); }
-  .btn-green {
+  .login-box input[type=password]:focus { border-color: var(--blue); }
+  .btn-blue {
     width: 100%; padding: 12px; border-radius: 10px;
-    background: linear-gradient(135deg, var(--gdk), var(--green));
+    background: linear-gradient(135deg, var(--blue-dk), var(--blue));
     color: #000; font-weight: 800; font-size: 15px; border: none; cursor: pointer;
     transition: opacity .2s;
   }
-  .btn-green:hover { opacity: .88; }
+  .btn-blue:hover { opacity: .88; }
   .error-msg { color: var(--red); font-size: 13px; margin-top: 10px; }
 
   /* ── ADMIN PANEL ── */
@@ -99,10 +99,10 @@ $logged = isset($_SESSION['admin']);
     justify-content: space-between; gap: 12px; flex-wrap: wrap;
   }
   .topbar h1  { font-size: 18px; font-weight: 800; }
-  .topbar h1 span { color: var(--green); }
+  .topbar h1 span { color: var(--blue); }
   .topbar-right { display: flex; align-items: center; gap: 10px; }
   .badge-total {
-    background: var(--green); color: #000; font-size: 12px; font-weight: 800;
+    background: var(--blue); color: #000; font-size: 12px; font-weight: 800;
     padding: 3px 12px; border-radius: 999px;
   }
   .btn-sm {
@@ -131,7 +131,7 @@ $logged = isset($_SESSION['admin']);
   tbody tr:nth-child(even) { background: var(--bg2); }
   tbody tr:hover { background: var(--card2); }
   td { padding: 10px 14px; vertical-align: middle; }
-  td.ip    { font-family: monospace; color: var(--green); font-weight: 600; white-space: nowrap; }
+  td.ip    { font-family: monospace; color: var(--blue); font-weight: 600; white-space: nowrap; }
   td.date  { white-space: nowrap; color: var(--muted); }
   td.ua    { max-width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--muted); font-size: 12px; }
   td.num   { color: var(--muted); font-size: 11px; text-align: right; }
@@ -153,7 +153,7 @@ $logged = isset($_SESSION['admin']);
     transition: color .2s;
   }
   .dash-nav a:hover { color: var(--text); }
-  .dash-nav a.active { color: var(--green); border-bottom-color: var(--green); }
+  .dash-nav a.active { color: var(--blue); border-bottom-color: var(--blue); }
 
   @media(max-width:600px) {
     .topbar { flex-direction: column; align-items: flex-start; }
@@ -172,7 +172,7 @@ $logged = isset($_SESSION['admin']);
     <p>Mola Prono — Accès administrateur</p>
     <form method="POST">
       <input type="password" name="password" placeholder="Mot de passe" autofocus autocomplete="current-password">
-      <button type="submit" class="btn-green">Se connecter</button>
+      <button type="submit" class="btn-blue">Se connecter</button>
       <?php if ($error): ?>
         <p class="error-msg">⚠️ <?= htmlspecialchars($error) ?></p>
       <?php endif; ?>

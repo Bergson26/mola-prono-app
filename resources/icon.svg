@@ -1,39 +1,49 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <defs>
-    <radialGradient id="bg" cx="45%" cy="35%" r="65%">
-      <stop offset="0%" stop-color="#CC0000"/>
-      <stop offset="100%" stop-color="#6B0000"/>
+    <radialGradient id="bgGrad" cx="40%" cy="35%" r="70%">
+      <stop offset="0%" stop-color="#0d1a40"/>
+      <stop offset="100%" stop-color="#071223"/>
     </radialGradient>
-    <linearGradient id="goldText" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#F5D76E"/>
-      <stop offset="50%" stop-color="#D4AF37"/>
-      <stop offset="100%" stop-color="#A07820"/>
+    <linearGradient id="shineGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.12)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
     </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="3" dy="6" stdDeviation="10" flood-color="rgba(0,0,0,0.6)"/>
+    </filter>
   </defs>
-  <!-- Shadow -->
-  <circle cx="103" cy="104" r="95" fill="rgba(0,0,0,0.35)"/>
-  <!-- Background -->
-  <circle cx="100" cy="100" r="95" fill="url(#bg)"/>
-  <!-- Dark outer border -->
-  <circle cx="100" cy="100" r="95" fill="none" stroke="#0d0000" stroke-width="7"/>
-  <!-- Gold ring outer -->
-  <circle cx="100" cy="100" r="88" fill="none" stroke="#D4AF37" stroke-width="3.5"/>
-  <!-- Gold ring inner (thin) -->
-  <circle cx="100" cy="100" r="79" fill="none" stroke="#C9A227" stroke-width="1.2" opacity="0.7"/>
-  <!-- Cardinal gold dots -->
-  <circle cx="100" cy="13" r="5.5" fill="#D4AF37"/>
-  <circle cx="187" cy="100" r="5.5" fill="#D4AF37"/>
-  <circle cx="100" cy="187" r="5.5" fill="#D4AF37"/>
-  <circle cx="13" cy="100" r="5.5" fill="#D4AF37"/>
-  <!-- Top decorative diamond -->
-  <polygon points="100,29 114,48 100,60 86,48" fill="#D4AF37"/>
-  <polygon points="100,34 110,48 100,56 90,48" fill="#8B0000"/>
-  <!-- MP shadow text -->
-  <text x="102" y="130" font-family="Georgia,'Times New Roman',serif"
-        font-size="80" font-weight="bold" fill="#3a0a00"
-        text-anchor="middle" letter-spacing="-4">MP</text>
-  <!-- MP gold text -->
-  <text x="100" y="128" font-family="Georgia,'Times New Roman',serif"
-        font-size="80" font-weight="bold" fill="url(#goldText)"
-        text-anchor="middle" letter-spacing="-4">MP</text>
+
+  <!-- Rounded square background -->
+  <rect width="512" height="512" rx="110" ry="110" fill="url(#bgGrad)"/>
+
+  <!-- Shine -->
+  <ellipse cx="200" cy="130" rx="160" ry="100" fill="url(#shineGrad)"/>
+
+  <!-- Blue border -->
+  <rect width="512" height="512" rx="110" ry="110" fill="none" stroke="rgba(29,78,216,0.5)" stroke-width="6"/>
+
+  <!-- Football -->
+  <g transform="translate(256, 140) scale(1.9)">
+    <circle cx="0" cy="0" r="22" fill="white"/>
+    <polygon points="0,-10 9.5,-3 5.9,8 -5.9,8 -9.5,-3" fill="#1d4ed8"/>
+    <polygon points="0,-22 9,-17 9,-10 0,-10 -9,-10 -9,-17" fill="none" stroke="#1d4ed8" stroke-width="1.5"/>
+    <polygon points="9,-10 18,-5 19,5 9.5,8 9,-10" fill="#1d4ed8" opacity="0.5"/>
+    <polygon points="-9,-10 -18,-5 -19,5 -9.5,8 -9,-10" fill="#1d4ed8" opacity="0.5"/>
+    <circle cx="0" cy="0" r="22" fill="none" stroke="#1d4ed8" stroke-width="1.5"/>
+  </g>
+
+  <!-- MP text -->
+  <text
+    x="256" y="400"
+    font-family="'Arial Black', Georgia, sans-serif"
+    font-size="200"
+    font-weight="900"
+    fill="white"
+    text-anchor="middle"
+    letter-spacing="-8"
+    filter="url(#shadow)"
+  >MP</text>
+
+  <!-- Accent line -->
+  <rect x="120" y="418" width="272" height="6" rx="3" fill="rgba(29,78,216,0.7)"/>
 </svg>

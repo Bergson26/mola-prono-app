@@ -6,7 +6,7 @@ if (!file_exists($apk_path)) {
     header('Content-Type: text/html; charset=UTF-8');
     echo '<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><title>Mola Prono</title>
     <style>body{font-family:sans-serif;background:#07101e;color:#e8f0fe;display:flex;align-items:center;justify-content:center;min-height:100vh;text-align:center;padding:20px;}
-    h1{color:#22c55e;font-size:22px;margin-bottom:10px;}p{color:#5a7394;}</style></head>
+    h1{color:#1d4ed8;font-size:22px;margin-bottom:10px;}p{color:#5a7394;}</style></head>
     <body><div><h1>⚽ Mola Prono</h1><p>L\'APK sera disponible très prochainement.<br>Revenez dans quelques heures !</p></div></body></html>';
     exit;
 }

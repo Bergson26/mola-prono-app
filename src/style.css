@@ -4,9 +4,9 @@
   --bg2:        #0d1a30;
   --card:       #101c2e;
   --card2:      #162440;
-  --green:      #22c55e;
-  --green-dk:   #16a34a;
-  --green-glow: rgba(34,197,94,.25);
+  --blue:       #1d4ed8;
+  --blue-dk:    #1e3a8a;
+  --blue-glow:  rgba(29,78,216,.25);
   --yellow:     #f59e0b;
   --red:        #f87171;
   --text:       #e8f0fe;
@@ -38,7 +38,7 @@ body {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: linear-gradient(160deg, #0d1a30 0%, #0c2416 60%, #07101e 100%);
+  background: linear-gradient(160deg, #0d1a30 0%, #0d1a40 60%, #07101e 100%);
   border-bottom: 1px solid var(--border);
   padding: env(safe-area-inset-top, 0px) 20px 0;
   overflow: hidden;
@@ -46,7 +46,7 @@ body {
 
 .header-glow {
   position: absolute; inset: 0;
-  background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(34,197,94,.14) 0%, transparent 70%);
+  background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(29,78,216,.14) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -68,12 +68,12 @@ body {
 .logo-img {
   width: 40px; height: 40px;
   object-fit: contain;
-  filter: drop-shadow(0 0 10px rgba(34,197,94,.4));
+  filter: drop-shadow(0 0 10px rgba(29,78,216,.4));
 }
 
 .logo-ball {
   font-size: 34px;
-  filter: drop-shadow(0 0 14px rgba(34,197,94,.5));
+  filter: drop-shadow(0 0 14px rgba(29,78,216,.5));
   animation: float 3s ease-in-out infinite;
 }
 
@@ -88,7 +88,7 @@ body {
   letter-spacing: -.03em;
   line-height: 1;
 }
-.app-title em { color: var(--green); font-style: normal; }
+.app-title em { color: var(--blue); font-style: normal; }
 
 .app-sub {
   color: var(--muted);
@@ -98,7 +98,7 @@ body {
   margin-top: 2px;
 }
 
-.header-right { text-align: right; }
+.header-right { display: flex; align-items: center; gap: 8px; }
 
 .header-date {
   font-size: 11px;
@@ -112,8 +112,8 @@ body {
    SECTION TÉLÉCHARGEMENT APK (navigateur)
 ═══════════════════════════════════════ */
 @keyframes dl-pulse {
-  0%,100% { box-shadow: 0 0 0 0 rgba(34,197,94,.4); }
-  70%      { box-shadow: 0 0 0 14px rgba(34,197,94,0); }
+  0%,100% { box-shadow: 0 0 0 0 rgba(29,78,216,.4); }
+  70%      { box-shadow: 0 0 0 14px rgba(29,78,216,0); }
 }
 @keyframes dl-shine {
   0%   { background-position: -200% center; }
@@ -124,13 +124,13 @@ body {
   position: relative;
   overflow: hidden;
   background: linear-gradient(160deg, #040d18 0%, #071428 50%, #040d18 100%);
-  border-bottom: 2px solid rgba(34,197,94,.25);
+  border-bottom: 2px solid rgba(29,78,216,.25);
   padding: 28px 20px 32px;
 }
 
 .dl-bg-glow {
   position: absolute; inset: 0; pointer-events: none;
-  background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(34,197,94,.1) 0%, transparent 70%);
+  background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(29,78,216,.1) 0%, transparent 70%);
 }
 
 .dl-inner { position: relative; max-width: 480px; margin: 0 auto; }
@@ -142,7 +142,7 @@ body {
 
 .dl-logo-img {
   width: 56px; height: 56px; border-radius: 14px;
-  filter: drop-shadow(0 0 12px rgba(34,197,94,.4));
+  filter: drop-shadow(0 0 12px rgba(29,78,216,.4));
   flex-shrink: 0;
 }
 
@@ -152,7 +152,7 @@ body {
   font-size: 22px; font-weight: 900; letter-spacing: -.03em;
   color: var(--text);
 }
-.dl-app-name span { color: var(--green); }
+.dl-app-name span { color: var(--blue); }
 
 .dl-app-sub {
   font-size: 12px; color: var(--muted);
@@ -163,7 +163,7 @@ body {
   font-size: 18px; font-weight: 800; line-height: 1.4;
   color: var(--text); margin-bottom: 22px; text-align: center;
 }
-.dl-headline em { color: var(--green); font-style: normal; }
+.dl-headline em { color: var(--blue); font-style: normal; }
 
 .dl-features {
   display: flex; flex-direction: column; gap: 12px;
@@ -188,14 +188,14 @@ body {
 /* Bouton télécharger */
 .dl-btn {
   display: flex; align-items: center; gap: 14px;
-  background: linear-gradient(135deg, #14532d 0%, #16a34a 50%, #22c55e 100%);
+  background: linear-gradient(135deg, #1e3068 0%, #1d4ed8 50%, #1d4ed8 100%);
   background-size: 200% auto;
-  color: #000; text-decoration: none;
+  color: #fff; text-decoration: none;
   border-radius: 16px; padding: 16px 20px;
   margin-bottom: 20px;
   animation: dl-pulse 2.5s ease-in-out infinite;
   transition: transform .15s, opacity .15s;
-  box-shadow: 0 8px 32px rgba(34,197,94,.35), 0 2px 8px rgba(0,0,0,.4);
+  box-shadow: 0 8px 32px rgba(29,78,216,.35), 0 2px 8px rgba(0,0,0,.4);
 }
 .dl-btn:hover, .dl-btn:active { opacity: .92; transform: scale(.985); }
 
@@ -238,7 +238,7 @@ body {
 
 .dl-step-num {
   width: 20px; height: 20px; border-radius: 50%;
-  background: rgba(34,197,94,.15); color: var(--green);
+  background: rgba(29,78,216,.15); color: var(--blue);
   font-size: 11px; font-weight: 900;
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
@@ -269,12 +269,12 @@ body {
    WHATSAPP BANNER MOBILE (clignotant)
 ═══════════════════════════════════════ */
 @keyframes wa-pulse-mob {
-  0%,100% { box-shadow: 0 0 8px #25d366, 0 0 24px #128c7e; opacity:1; }
-  50%      { box-shadow: 0 0 18px #25d366, 0 0 48px #25d366; opacity:.85; }
+  0%,100% { box-shadow: 0 0 8px #1d4ed8, 0 0 24px #1e3a8a; opacity:1; }
+  50%      { box-shadow: 0 0 18px #1d4ed8, 0 0 48px #1d4ed8; opacity:.85; }
 }
 @keyframes wa-glow-mob {
-  0%,100% { text-shadow: 0 0 5px #fff, 0 0 12px #25d366; }
-  50%      { text-shadow: 0 0 12px #fff, 0 0 26px #25d366; }
+  0%,100% { text-shadow: 0 0 5px #fff, 0 0 12px #1d4ed8; }
+  50%      { text-shadow: 0 0 12px #fff, 0 0 26px #1d4ed8; }
 }
 @keyframes wa-blink {
   0%,49%  { background: #ffdd00; color: #000; }
@@ -284,16 +284,18 @@ body {
 .wa-banner-link { text-decoration: none; display: block; }
 
 .wa-banner-mobile {
-  background: linear-gradient(135deg, #012c1e 0%, #014d35 50%, #012c1e 100%);
-  border-top: 2px solid #25d366;
-  border-bottom: 2px solid #25d366;
+  background: linear-gradient(135deg, #071223 0%, #0d1a40 50%, #071223 100%);
+  border-top: 2px solid #1d4ed8;
+  border-bottom: 2px solid #1d4ed8;
   padding: 12px 16px;
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
   animation: wa-pulse-mob 2s ease-in-out infinite;
+  border-radius: 12px;
+  margin: 0 14px 16px 14px;
 }
 
 .wa-main-text {
-  font-size: 13px; font-weight: 600; color: #e0ffe8; line-height: 1.4;
+  font-size: 13px; font-weight: 600; color: #dbeafe; line-height: 1.4;
   flex: 1;
   animation: wa-glow-mob 2s ease-in-out infinite;
 }
@@ -333,8 +335,8 @@ body {
 }
 
 .count-badge {
-  background: var(--green);
-  color: #000;
+  background: var(--blue);
+  color: #fff;
   font-size: 11px;
   font-weight: 800;
   padding: 3px 9px;
@@ -479,8 +481,8 @@ body {
 
 /* Bloc principal (pronostic auto) */
 .main-pred-box {
-  background: #dcfce7;
-  border: 1px solid #86efac;
+  background: #dbeafe;
+  border: 1px solid #93c5fd;
   border-radius: 10px;
   padding: 12px 14px;
   display: flex;
@@ -501,7 +503,7 @@ body {
 .pred-dot {
   width: 8px; height: 8px;
   border-radius: 50%;
-  background: var(--green);
+  background: var(--blue);
   flex-shrink: 0;
 }
 
@@ -515,7 +517,7 @@ body {
 .main-pred-pct {
   font-size: 16px;
   font-weight: 900;
-  color: #16a34a;
+  color: #1d4ed8;
   flex-shrink: 0;
 }
 
@@ -541,14 +543,14 @@ body {
   flex-shrink: 0;
   line-height: 1;
 }
-.stat-circle.yes { background: var(--green-dk); color: #fff; }
+.stat-circle.yes { background: var(--blue-dk); color: #fff; }
 .stat-circle.no  { background: #b91c1c; color: #fff; }
 .stat-circle.neu { background: var(--yellow); color: #000; }
 
 .stat-lbl { flex: 1; color: #374151; font-size: 12px; line-height: 1.3; }
 
 .stat-pct { font-size: 12px; font-weight: 700; flex-shrink: 0; }
-.stat-pct.yes { color: #16a34a; }
+.stat-pct.yes { color: #1d4ed8; }
 .stat-pct.no  { color: #ef4444; }
 .stat-pct.neu { color: #f59e0b; }
 
@@ -569,7 +571,7 @@ body {
 .manual-label { flex: 1; color: #374151; font-size: 12px; line-height: 1.3; }
 
 .manual-val { font-size: 12px; font-weight: 700; flex-shrink: 0; }
-.manual-val.yes { color: #16a34a; }
+.manual-val.yes { color: #1d4ed8; }
 .manual-val.no  { color: #ef4444; }
 .manual-val.neu { color: #6b7280; }
 
@@ -590,7 +592,7 @@ body {
 .spinner {
   width: 38px; height: 38px;
   border: 3px solid rgba(0,0,0,.08);
-  border-top-color: var(--green);
+  border-top-color: var(--blue);
   border-radius: 50%;
   animation: spin .7s linear infinite;
   margin: 0 auto 16px;
@@ -622,7 +624,7 @@ body {
   margin-top: 1px;
   width: 36px;
   height: 36px;
-  background: rgba(34,197,94,.1);
+  background: rgba(29,78,216,.1);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -632,7 +634,7 @@ body {
 .notif-item-body { flex: 1; min-width: 0; }
 
 .notif-item-title {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 800;
   color: #111827;
   margin-bottom: 4px;
@@ -640,10 +642,17 @@ body {
 }
 
 .notif-item-text {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--muted);
   line-height: 1.5;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
+}
+
+.notif-item-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 6px;
 }
 
 .notif-item-date {
@@ -733,14 +742,14 @@ body {
   position: relative;
 }
 
-.nav-btn.active { color: var(--green); }
+.nav-btn.active { color: var(--blue); }
 
 .nav-btn::before {
   content: '';
   position: absolute;
   top: 0; left: 20%; right: 20%;
   height: 2px;
-  background: var(--green);
+  background: var(--blue);
   border-radius: 0 0 3px 3px;
   opacity: 0;
   transition: opacity .2s;
@@ -783,7 +792,7 @@ body {
   top: -100px;
   left: 12px; right: 12px;
   background: var(--card2);
-  border: 1px solid var(--green);
+  border: 1px solid var(--blue);
   border-radius: 14px;
   padding: 14px 16px;
   z-index: 200;
@@ -809,7 +818,7 @@ body {
   display: block;
   font-size: 14px;
   font-weight: 800;
-  color: var(--green);
+  color: var(--blue);
   margin-bottom: 3px;
 }
 
@@ -849,7 +858,7 @@ body {
 
 .notif-popup-box {
   background: #101c2e;
-  border: 1px solid var(--green);
+  border: 1px solid var(--blue);
   border-radius: 20px;
   padding: 28px 24px 22px;
   max-width: 340px;
@@ -863,7 +872,7 @@ body {
 .notif-popup-icon { font-size: 44px; margin-bottom: 14px; display: block; }
 
 .notif-popup-title {
-  font-size: 17px; font-weight: 900; color: var(--green);
+  font-size: 17px; font-weight: 900; color: var(--blue);
   margin-bottom: 10px; line-height: 1.3;
 }
 
@@ -873,8 +882,8 @@ body {
 }
 
 .notif-popup-btn {
-  background: linear-gradient(135deg, var(--green-dk), var(--green));
-  color: #000; font-weight: 900; font-size: 15px;
+  background: linear-gradient(135deg, var(--blue-dk), var(--blue));
+  color: #fff; font-weight: 900; font-size: 15px;
   border: none; border-radius: 12px; padding: 13px 40px;
   cursor: pointer; font-family: inherit; width: 100%;
   transition: opacity .15s;
@@ -923,15 +932,63 @@ body {
   gap: 8px;
   width: 100%;
   padding: 13px 20px;
-  background: linear-gradient(135deg, var(--green-dk), var(--green));
-  color: #000;
+  background: linear-gradient(135deg, var(--blue-dk), var(--blue));
+  color: #fff;
   font-weight: 800;
   font-size: 14px;
   border: none;
   border-radius: 14px;
   cursor: pointer;
   font-family: inherit;
-  box-shadow: 0 4px 16px rgba(34,197,94,.3);
+  box-shadow: 0 4px 16px rgba(29,78,216,.3);
   transition: opacity .15s, transform .15s;
 }
 .share-btn:active { opacity: .85; transform: scale(.98); }
+
+/* ═══════════════════════════════════════
+   HEADER SHARE BUTTON
+═══════════════════════════════════════ */
+.header-share-btn {
+  background: rgba(29,78,216,.15);
+  border: 1px solid rgba(29,78,216,.3);
+  color: var(--text);
+  border-radius: 8px;
+  width: 34px; height: 34px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background .15s;
+  padding: 0;
+}
+.header-share-btn:active { background: rgba(29,78,216,.35); }
+
+/* ═══════════════════════════════════════
+   NOTIF WA BUTTON (liste notifications)
+═══════════════════════════════════════ */
+.notif-wa-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: linear-gradient(135deg, var(--blue-dk), var(--blue));
+  color: #fff;
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 10px;
+  border-radius: 8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: opacity .15s;
+}
+.notif-wa-btn:active { opacity: .8; }
+
+/* ═══════════════════════════════════════
+   POPUP WA BUTTON
+═══════════════════════════════════════ */
+.notif-popup-wa-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+}

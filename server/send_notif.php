@@ -84,8 +84,15 @@ function fcm_send_topic(string $title, string $body, string $topic, string $noti
             'topic'        => $topic,
             'notification' => ['title' => $title, 'body' => $body],
             'android'      => [
-                'priority'     => 'HIGH',
-                'notification' => ['channel_id' => 'mola_prono_channel', 'sound' => 'default'],
+                'priority'     => 'high',
+                'notification' => [
+                    'channel_id'              => 'mola_prono_channel',
+                    'sound'                   => 'default',
+                    'visibility'              => 'PUBLIC',
+                    'notification_priority'   => 'PRIORITY_MAX',
+                    'default_sound'           => true,
+                    'default_vibrate_timings' => true,
+                ],
             ],
             'data' => [
                 'notif_id' => $notif_id ?: uniqid(),
@@ -109,8 +116,15 @@ function fcm_send_token(string $device_token, string $title, string $body, strin
             'token'        => $device_token,
             'notification' => ['title' => $title, 'body' => $body],
             'android'      => [
-                'priority'     => 'HIGH',
-                'notification' => ['channel_id' => 'mola_prono_channel', 'sound' => 'default'],
+                'priority'     => 'high',
+                'notification' => [
+                    'channel_id'              => 'mola_prono_channel',
+                    'sound'                   => 'default',
+                    'visibility'              => 'PUBLIC',
+                    'notification_priority'   => 'PRIORITY_MAX',
+                    'default_sound'           => true,
+                    'default_vibrate_timings' => true,
+                ],
             ],
             'data' => [
                 'notif_id' => $notif_id ?: uniqid(),

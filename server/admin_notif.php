@@ -131,7 +131,7 @@ $au_today = $au_by_day[$today_str] ?? 0;
   <style>
     :root {
       --bg: #ffffff; --bg2: #f9fafb; --bg3: #f3f4f6;
-      --green: #22c55e; --green-dk: #16a34a;
+      --blue: #1d4ed8; --blue-dk: #1e3a8a;
       --text: #111827; --muted: #6b7280;
       --brd: #e5e7eb; --red: #ef4444; --yellow: #f59e0b;
       --blue: #3b82f6; --radius: 12px;
@@ -145,8 +145,8 @@ $au_today = $au_by_day[$today_str] ?? 0;
     .login-box h1 { font-size: 22px; font-weight: 800; margin-bottom: 4px; }
     .login-box p  { color: var(--muted); font-size: 14px; margin-bottom: 28px; }
     .login-box input[type=password] { width: 100%; padding: 12px 16px; border-radius: 10px; border: 1px solid var(--brd); background: var(--bg3); color: var(--text); font-size: 15px; margin-bottom: 12px; outline: none; font-family: inherit; }
-    .login-box input[type=password]:focus { border-color: var(--green); }
-    .btn-green { width: 100%; padding: 12px; border-radius: 10px; background: linear-gradient(135deg, var(--green-dk), var(--green)); color: #000; font-weight: 800; font-size: 15px; border: none; cursor: pointer; font-family: inherit; }
+    .login-box input[type=password]:focus { border-color: var(--blue); }
+    .btn-blue { width: 100%; padding: 12px; border-radius: 10px; background: linear-gradient(135deg, var(--blue-dk), var(--blue)); color: #000; font-weight: 800; font-size: 15px; border: none; cursor: pointer; font-family: inherit; }
     .login-error { color: var(--red); font-size: 13px; margin-top: 8px; }
 
     /* ── HEADER PLEIN ÉCRAN ── */
@@ -156,7 +156,7 @@ $au_today = $au_by_day[$today_str] ?? 0;
       border-bottom: 2px solid var(--brd); position: sticky; top: 0; z-index: 50;
     }
     .admin-title { font-size: 18px; font-weight: 900; display: flex; align-items: center; gap: 8px; }
-    .admin-title em { color: var(--green); font-style: normal; }
+    .admin-title em { color: var(--blue); font-style: normal; }
     .logout-link { font-size: 13px; color: var(--muted); text-decoration: none; padding: 7px 14px; border: 1px solid var(--brd); border-radius: 8px; transition: color .15s; }
     .logout-link:hover { color: var(--red); border-color: var(--red); }
 
@@ -168,14 +168,14 @@ $au_today = $au_by_day[$today_str] ?? 0;
       border-bottom: 3px solid transparent; margin-bottom: -1px; transition: color .15s;
     }
     .admin-nav a:hover { color: var(--text); }
-    .admin-nav a.active { color: var(--green); border-bottom-color: var(--green); }
+    .admin-nav a.active { color: var(--blue); border-bottom-color: var(--blue); }
 
     /* ── CONTENT ── */
     .admin-content { padding: 28px 28px 60px; }
 
     /* Flash */
     .flash { padding: 14px 18px; border-radius: var(--radius); margin-bottom: 20px; font-size: 14px; font-weight: 600; }
-    .flash.ok  { background: rgba(34,197,94,.1);  border: 1px solid rgba(34,197,94,.3);  color: var(--green); }
+    .flash.ok  { background: rgba(29,78,216,.1);  border: 1px solid rgba(29,78,216,.3);  color: var(--blue); }
     .flash.err { background: rgba(248,113,113,.1); border: 1px solid rgba(248,113,113,.3); color: var(--red); }
 
     /* Stats */
@@ -186,7 +186,7 @@ $au_today = $au_by_day[$today_str] ?? 0;
     @media(max-width:600px){ .stats-6,.stats-3 { grid-template-columns: repeat(2,1fr); } }
 
     .stat-card { background: var(--bg2); border: 1px solid var(--brd); border-radius: var(--radius); padding: 18px 14px; text-align: center; }
-    .stat-num  { font-size: 30px; font-weight: 900; color: var(--green); line-height: 1.1; }
+    .stat-num  { font-size: 30px; font-weight: 900; color: var(--blue); line-height: 1.1; }
     .stat-num.blue { color: var(--blue); }
     .stat-lbl  { font-size: 11px; color: var(--muted); margin-top: 5px; text-transform: uppercase; letter-spacing: .06em; }
 
@@ -201,7 +201,7 @@ $au_today = $au_by_day[$today_str] ?? 0;
     .bar-label { font-size: 12px; color: var(--muted); width: 82px; flex-shrink: 0; }
     .bar-track { flex: 1; background: rgba(0,0,0,.06); border-radius: 4px; height: 14px; overflow: hidden; }
     .bar-fill  { height: 100%; border-radius: 4px; }
-    .bar-fill.green { background: var(--green); }
+    .bar-fill.blue { background: var(--blue); }
     .bar-fill.blue  { background: var(--blue); }
     .bar-fill.orange{ background: #f97316; }
     .bar-val  { font-size: 12px; font-weight: 700; width: 26px; text-align: right; flex-shrink: 0; }
@@ -214,22 +214,22 @@ $au_today = $au_by_day[$today_str] ?? 0;
       width: 100%; padding: 11px 14px; border-radius: 10px; border: 1px solid var(--brd);
       background: var(--bg3); color: var(--text); font-size: 14px; font-family: inherit; outline: none; transition: border-color .2s;
     }
-    .form-group input:focus, .form-group textarea:focus { border-color: var(--green); }
+    .form-group input:focus, .form-group textarea:focus { border-color: var(--blue); }
     .form-group textarea { resize: vertical; min-height: 80px; }
     .char-count { font-size: 11px; color: var(--muted); margin-top: 4px; text-align: right; }
 
     .target-tabs { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
     .target-tab { padding: 8px 16px; border-radius: 20px; border: 1px solid var(--brd); background: var(--bg3); color: var(--muted); font-size: 13px; cursor: pointer; transition: all .2s; font-family: inherit; font-weight: 600; }
-    .target-tab.active { background: rgba(34,197,94,.15); border-color: var(--green); color: var(--green); }
+    .target-tab.active { background: rgba(29,78,216,.15); border-color: var(--blue); color: var(--blue); }
 
     .country-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
     .country-check { display: flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 8px; border: 1px solid var(--brd); background: var(--bg3); cursor: pointer; font-size: 13px; transition: all .15s; }
-    .country-check:has(input:checked) { border-color: var(--green); background: rgba(34,197,94,.1); color: var(--green); }
-    .country-check input { accent-color: var(--green); }
+    .country-check:has(input:checked) { border-color: var(--blue); background: rgba(29,78,216,.1); color: var(--blue); }
+    .country-check input { accent-color: var(--blue); }
 
     #user-token-field { display: none; }
     .form-hint { font-size: 12px; color: var(--muted); margin-top: 6px; font-style: italic; }
-    .send-btn { display: block; width: 100%; padding: 14px; background: linear-gradient(135deg, var(--green-dk), var(--green)); color: #000; font-weight: 800; font-size: 15px; border: none; border-radius: 10px; cursor: pointer; font-family: inherit; margin-top: 6px; transition: opacity .2s; }
+    .send-btn { display: block; width: 100%; padding: 14px; background: linear-gradient(135deg, var(--blue-dk), var(--blue)); color: #000; font-weight: 800; font-size: 15px; border: none; border-radius: 10px; cursor: pointer; font-family: inherit; margin-top: 6px; transition: opacity .2s; }
     .send-btn:hover { opacity: .9; }
 
     /* Table */
@@ -239,11 +239,11 @@ $au_today = $au_by_day[$today_str] ?? 0;
     td { padding: 11px 14px; border-bottom: 1px solid var(--brd); }
     tr:last-child td { border-bottom: none; }
     tr:hover td { background: var(--bg2); }
-    .badge-green { background: rgba(34,197,94,.15); color: var(--green-dk); padding: 3px 9px; border-radius: 6px; font-size: 11px; font-weight: 700; }
+    .badge-blue { background: rgba(29,78,216,.15); color: var(--blue-dk); padding: 3px 9px; border-radius: 6px; font-size: 11px; font-weight: 700; }
     .badge-red   { background: rgba(248,113,113,.15); color: var(--red); padding: 3px 9px; border-radius: 6px; font-size: 11px; font-weight: 700; }
     .badge-muted { background: var(--bg3); color: var(--muted); padding: 3px 9px; border-radius: 6px; font-size: 11px; }
     .token-short { font-family: monospace; font-size: 11px; color: var(--muted); cursor: pointer; }
-    .open-rate { font-weight: 700; color: var(--green); }
+    .open-rate { font-weight: 700; color: var(--blue); }
     .empty-row td { text-align: center; color: var(--muted); padding: 32px; }
   </style>
 </head>
@@ -257,7 +257,7 @@ $au_today = $au_by_day[$today_str] ?? 0;
     <p>Mola Prono — Panneau Admin</p>
     <form method="POST">
       <input type="password" name="password" placeholder="Mot de passe" autofocus autocomplete="current-password">
-      <button type="submit" class="btn-green">Se connecter</button>
+      <button type="submit" class="btn-blue">Se connecter</button>
       <?php if ($login_error): ?><p class="login-error"><?= htmlspecialchars($login_error) ?></p><?php endif; ?>
     </form>
   </div>
@@ -344,7 +344,7 @@ $au_today = $au_by_day[$today_str] ?? 0;
           foreach (array_slice($dl_by_day, 0, 14, true) as $date => $cnt): ?>
         <div class="bar-row">
           <span class="bar-label"><?= htmlspecialchars($date) ?></span>
-          <div class="bar-track"><div class="bar-fill green" style="width:<?= $max_dl ? round($cnt/$max_dl*100) : 0 ?>%"></div></div>
+          <div class="bar-track"><div class="bar-fill blue" style="width:<?= $max_dl ? round($cnt/$max_dl*100) : 0 ?>%"></div></div>
           <span class="bar-val"><?= $cnt ?></span>
         </div>
         <?php endforeach; endif; ?>
@@ -409,7 +409,7 @@ $au_today = $au_by_day[$today_str] ?? 0;
                   <td><?= htmlspecialchars($t['country'] ?: ($t['country_code'] ?: '—')) ?></td>
                   <td><?= htmlspecialchars($t['city'] ?: '—') ?></td>
                   <td><?= htmlspecialchars(substr($t['installed_at'] ?? '', 0, 10)) ?></td>
-                  <td><button type="button" onclick="selectUser('<?= htmlspecialchars($t['token']) ?>')" style="font-size:11px;padding:3px 8px;border-radius:6px;border:1px solid var(--green);background:transparent;color:var(--green);cursor:pointer;">Choisir</button></td>
+                  <td><button type="button" onclick="selectUser('<?= htmlspecialchars($t['token']) ?>')" style="font-size:11px;padding:3px 8px;border-radius:6px;border:1px solid var(--blue);background:transparent;color:var(--blue);cursor:pointer;">Choisir</button></td>
                 </tr>
                 <?php endforeach; endif; ?>
               </tbody>
@@ -465,7 +465,7 @@ $au_today = $au_by_day[$today_str] ?? 0;
             <td><span class="badge-muted"><?= htmlspecialchars($n['target'] ?? '—') ?></span></td>
             <td><?= htmlspecialchars($n['sent_at'] ?? '—') ?></td>
             <td><span class="open-rate"><?= intval($n['open_count'] ?? 0) ?></span> ouvertures</td>
-            <td><?= ($n['success'] ?? false) ? '<span class="badge-green">✓ Livré</span>' : '<span class="badge-red">✗ Erreur</span>' ?></td>
+            <td><?= ($n['success'] ?? false) ? '<span class="badge-blue">✓ Livré</span>' : '<span class="badge-red">✗ Erreur</span>' ?></td>
           </tr>
           <?php endforeach; endif; ?>
         </tbody>

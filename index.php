@@ -13,9 +13,9 @@
       --bg2:        #0d1a30;
       --card:       #101c2e;
       --card2:      #162440;
-      --green:      #22c55e;
-      --green-dk:   #16a34a;
-      --green-glow: rgba(34,197,94,.25);
+      --blue:       #1d4ed8;
+      --blue-dk:    #1e3a8a;
+      --blue-glow:  rgba(29,78,216,.25);
       --yellow:     #f59e0b;
       --text:       #e8f0fe;
       --muted:      #5a7394;
@@ -27,19 +27,19 @@
 
     /* ── HEADER ── */
     .header {
-      background: linear-gradient(160deg,#0d1a30 0%,#0c2416 60%,#07101e 100%);
+      background: linear-gradient(160deg,#0d1a30 0%,#0d1a40 60%,#07101e 100%);
       border-bottom:1px solid var(--border);
       padding:32px 24px 0; text-align:center; position:relative; overflow:hidden;
     }
     .header::before {
       content:''; position:absolute; inset:0;
-      background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(34,197,94,.12) 0%,transparent 70%);
+      background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(29,78,216,.12) 0%,transparent 70%);
       pointer-events:none;
     }
     .logo-wrap { display:flex; align-items:center; justify-content:center; gap:16px; margin-bottom:10px; }
-    .logo-img  { width:64px; height:64px; filter:drop-shadow(0 4px 12px rgba(34,197,94,.35)); }
-    .site-title { font-size:clamp(30px,6vw,54px); font-weight:900; letter-spacing:-.03em; line-height:1; }
-    .site-title em { color:var(--green); font-style:normal; }
+    .logo-img  { width:64px; height:64px; filter:drop-shadow(0 4px 12px rgba(29,78,216,.35)); }
+    .site-title { font-size:clamp(30px,6vw,54px); font-weight:900; letter-spacing:-.03em; line-height:1; color:#ffffff; }
+    .site-title em { color:var(--blue); font-style:normal; }
     .header-sub  { color:var(--muted); font-size:13px; text-transform:uppercase; letter-spacing:.08em; margin-bottom:6px; }
     .header-date { color:var(--text); font-size:15px; margin-bottom:28px; opacity:.7; }
 
@@ -79,9 +79,9 @@
     .toolbar { display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:12px; }
     .section-heading { display:flex; align-items:center; gap:12px; }
     .section-heading h2 { font-size:20px; font-weight:800; color:#0a0f1e; }
-    .count-badge { background:var(--green); color:#000; font-size:12px; font-weight:800; padding:2px 10px; border-radius:999px; }
+    .count-badge { background:var(--blue); color:#fff; font-size:12px; font-weight:800; padding:2px 10px; border-radius:999px; }
     .update-info { display:flex; align-items:center; gap:7px; font-size:13px; color:#9ca3af; }
-    .update-dot { width:8px; height:8px; border-radius:50%; background:var(--green); animation:blink 1.8s ease-in-out infinite; }
+    .update-dot { width:8px; height:8px; border-radius:50%; background:var(--blue); animation:blink 1.8s ease-in-out infinite; }
     @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
 
     /* ── CARDS ── */
@@ -131,18 +131,18 @@
 
     .c-pred { padding:0 18px 18px; background:#ffffff; }
     .main-pred-box {
-      background:#dcfce7;
-      border:1px solid #86efac;
+      background:#dbeafe;
+      border:1px solid #93c5fd;
       border-radius:12px;
       padding:14px 16px;
       display:flex; align-items:center; justify-content:space-between; gap:12px;
       margin-bottom:10px;
     }
     .main-pred-left { display:flex; align-items:center; gap:10px; flex:1; min-width:0; }
-    .pred-dot { width:10px; height:10px; border-radius:50%; background:#16a34a; flex-shrink:0; }
+    .pred-dot { width:10px; height:10px; border-radius:50%; background:#1d4ed8; flex-shrink:0; }
     .main-pred-label { font-size:15px; font-weight:800; line-height:1.2; margin-bottom:3px; color:#111827; }
-    .main-pred-conf { font-size:12px; font-weight:600; color:#16a34a; }
-    .main-pred-pct { font-size:22px; font-weight:900; color:#16a34a; line-height:1; flex-shrink:0; }
+    .main-pred-conf { font-size:12px; font-weight:600; color:#1d4ed8; }
+    .main-pred-pct { font-size:22px; font-weight:900; color:#1d4ed8; line-height:1; flex-shrink:0; }
 
     .stat-row {
       display:flex; align-items:center; gap:10px;
@@ -154,12 +154,12 @@
       display:flex; align-items:center; justify-content:center;
       font-size:12px; font-weight:900; flex-shrink:0; line-height:1;
     }
-    .stat-circle.yes { background:#16a34a; color:#fff; }
+    .stat-circle.yes { background:#1d4ed8; color:#fff; }
     .stat-circle.no  { background:#ef4444; color:#fff; }
     .stat-circle.neu { background:#f59e0b; color:#fff; }
     .stat-lbl { flex:1; color:#374151; font-weight:500; }
     .stat-pct { font-size:14px; font-weight:700; flex-shrink:0; }
-    .stat-pct.yes { color:#16a34a; }
+    .stat-pct.yes { color:#1d4ed8; }
     .stat-pct.no  { color:#ef4444; }
     .stat-pct.neu { color:#f59e0b; }
 
@@ -172,8 +172,8 @@
     /* ── FOOTER ── */
     footer {
       text-align:center; padding:28px 20px 24px;
-      border-top:2px solid #e5e7eb;
-      background: linear-gradient(135deg,#0a0f1e 0%,#111827 100%);
+      border-top: 2px solid rgba(29,78,216,.25);
+      background: linear-gradient(160deg, #071223 0%, #0d1a30 100%);
     }
     .promo-logos {
       display:flex; align-items:center; justify-content:center; gap:18px;
@@ -200,7 +200,7 @@
       letter-spacing:.05em; margin:0 3px;
     }
     .promo-bonus {
-      color:#4ade80; font-weight:900; font-size:15px;
+      color:#60a5fa; font-weight:900; font-size:15px;
     }
     @media(max-width:480px){
       .promo-text { font-size:13px; }
@@ -216,34 +216,37 @@
     }
     .manual-label { flex:1; color:#374151; font-weight:500; }
     .manual-val   { font-size:14px; font-weight:700; flex-shrink:0; }
-    .manual-val.yes { color:#16a34a; }
+    .manual-val.yes { color:#1d4ed8; }
     .manual-val.no  { color:#ef4444; }
     .manual-val.neu { color:#6b7280; }
 
     /* ── WHATSAPP BANNER ── */
     @keyframes wa-pulse {
-      0%,100% { box-shadow: 0 0 10px #25d366, 0 0 30px #25d366, 0 0 60px #128c7e; opacity:1; }
-      50%      { box-shadow: 0 0 20px #25d366, 0 0 60px #25d366, 0 0 100px #25d366; opacity:.85; }
+      0%,100% { box-shadow: 0 0 10px #1d4ed8, 0 0 30px #1d4ed8, 0 0 60px #1e3a8a; opacity:1; }
+      50%      { box-shadow: 0 0 20px #1d4ed8, 0 0 60px #1d4ed8, 0 0 100px #1d4ed8; opacity:.85; }
     }
     @keyframes wa-text-glow {
-      0%,100% { text-shadow: 0 0 6px #fff, 0 0 14px #25d366; }
-      50%      { text-shadow: 0 0 14px #fff, 0 0 30px #25d366, 0 0 50px #25d366; }
+      0%,100% { text-shadow: 0 0 6px #fff, 0 0 14px #1d4ed8; }
+      50%      { text-shadow: 0 0 14px #fff, 0 0 30px #1d4ed8, 0 0 50px #1d4ed8; }
     }
     @keyframes wa-badge-blink {
       0%,49%  { background: #ff0; color: #000; }
       50%,100%{ background: #ff6f00; color: #fff; }
     }
     .wa-banner {
-      background: linear-gradient(135deg, #012c1e 0%, #014d35 50%, #012c1e 100%);
-      border-top: 2px solid #25d366; border-bottom: 2px solid #25d366;
+      background: linear-gradient(135deg, #071223 0%, #0d1a40 50%, #071223 100%);
+      border-top: 2px solid #1d4ed8; border-bottom: 2px solid #1d4ed8;
       padding: 14px 20px;
       display: flex; align-items: center; justify-content: center; gap: 14px;
       flex-wrap: wrap; text-align: center;
       animation: wa-pulse 2s ease-in-out infinite;
       cursor: pointer;
+      max-width: 860px;
+      margin: 0 auto 20px auto;
+      border-radius: 12px;
     }
     .wa-main-text {
-      font-size: 15px; font-weight: 600; color: #e0ffe8; line-height: 1.5;
+      font-size: 15px; font-weight: 600; color: #dbeafe; line-height: 1.5;
       animation: wa-text-glow 2s ease-in-out infinite;
     }
     .wa-main-text strong {
@@ -254,7 +257,7 @@
     .wa-join-btn {
       display: inline-flex; align-items: center; gap: 8px;
       padding: 10px 20px; border-radius: 999px;
-      background: #25d366; color: #000;
+      background: #1d4ed8; color: #000;
       font-weight: 900; font-size: 13px; text-decoration: none;
       white-space: nowrap; flex-shrink: 0;
       animation: wa-badge-blink 1s step-start infinite;
@@ -284,26 +287,12 @@
 <!-- ═══ HEADER ═══ -->
 <header class="header">
   <div class="logo-wrap">
-    <img src="logo.svg" alt="Mola Prono" class="logo-img">
+    <img src="logo.png" alt="Mola Prono" class="logo-img">
     <h1 class="site-title">Mola <em>Prono</em></h1>
   </div>
   <div class="header-sub">Pronostics Football</div>
   <div class="header-date" id="header-date">Chargement…</div>
 </header>
-
-<!-- ═══ WHATSAPP BANNER ═══ -->
-<a href="https://whatsapp.com/channel/0029VbBrwdH1noz3OjnU5B2V" target="_blank" style="text-decoration:none;display:block">
-<div class="wa-banner">
-  <div class="wa-main-text">
-    Appuyez ici pour avoir le coupon du jour 👉
-    <strong>COUPON SCORE EXACT DU JOUR</strong>
-  </div>
-  <span class="wa-join-btn">
-    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-    Rejoindre
-  </span>
-</div>
-</a>
 
 <!-- ═══ BANNIÈRE TÉLÉCHARGEMENT APK ═══ -->
 <a href="/download.php" class="app-banner">
@@ -331,6 +320,20 @@
   </div>
   <div class="cards-grid" id="cards"></div>
 </main>
+
+<!-- ═══ WHATSAPP BANNER ═══ -->
+<a href="https://whatsapp.com/channel/0029VbBrwdH1noz3OjnU5B2V" target="_blank" style="text-decoration:none;display:block">
+<div class="wa-banner">
+  <div class="wa-main-text">
+    Rejoignez notre communauté pour avoir plus coupons gratuit
+    
+  </div>
+  <span class="wa-join-btn">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    Rejoindre
+  </span>
+</div>
+</a>
 
 <footer>
   <div class="promo-logos">
