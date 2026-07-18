@@ -317,6 +317,11 @@ function getNotifHistory() {
 
 function saveNotifToHistory(title, body) {
   const history = getNotifHistory();
+  const isDupe = history.some(h =>
+    h.title === title && h.body === body &&
+    Date.now() - new Date(h.date).getTime() < 120000
+  );
+  if (isDupe) return;
   history.unshift({ title, body, date: new Date().toISOString(), read: false });
   if (history.length > 50) history.pop();
   localStorage.setItem(NOTIF_KEY, JSON.stringify(history));
