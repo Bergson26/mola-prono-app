@@ -36,6 +36,9 @@ jobs:
       - name: Set minSdkVersion to 23
         run: sed -i 's/minSdkVersion = 22/minSdkVersion = 23/' android/variables.gradle
 
+      - name: Set targetSdkVersion to 35
+        run: sed -i 's/targetSdkVersion = [0-9]*/targetSdkVersion = 35/' android/variables.gradle
+
       - name: Write google-services.json
         run: echo '${{ secrets.GOOGLE_SERVICES_JSON }}' > android/app/google-services.json
 
