@@ -27,8 +27,13 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Patch @capacitor/share for Android 12+ (RECEIVER_NOT_EXPORTED)
-        run: python3 scripts/patch_receiver.py
+      - name: Fix @capacitor/share for Android 12+ (RECEIVER_NOT_EXPORTED)
+        run: |
+          DEST=$(find node_modules/@capacitor/share/android -name "SharePlugin.java" | head -1)
+          echo "Replacing: $DEST"
+          cp scripts/SharePlugin_fixed.java "$DEST"
+          echo "Done. Verifying:"
+          grep -n "registerReceiver\|ContextCompat" "$DEST"
 
       - name: Build web assets (Vite)
         run: npm run build
@@ -42,8 +47,8 @@ jobs:
       - name: Set targetSdkVersion to 35
         run: sed -i 's/targetSdkVersion = [0-9]*/targetSdkVersion = 35/' android/variables.gradle
 
-      - name: Set versionCode to 4
-        run: sed -i 's/versionCode 1$/versionCode 4/' android/app/build.gradle
+      - name: Set versionCode to 5
+        run: sed -i 's/versionCode 1$/versionCode 5/' android/app/build.gradle
 
       - name: Set versionName to 1.1
         run: sed -i 's/versionName "1\.0"/versionName "1.1"/' android/app/build.gradle
