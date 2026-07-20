@@ -42,6 +42,9 @@ jobs:
       - name: Set versionCode to 2
         run: sed -i 's/versionCode 1$/versionCode 2/' android/app/build.gradle
 
+      - name: Set versionName to 1.1
+        run: sed -i 's/versionName "1\.0"/versionName "1.1"/' android/app/build.gradle
+
       - name: Write google-services.json
         run: echo '${{ secrets.GOOGLE_SERVICES_JSON }}' > android/app/google-services.json
 
