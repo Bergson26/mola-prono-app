@@ -1,7 +1,6 @@
 package com.capacitorjs.plugins.share;
 
 import android.app.Activity;
-import android.app.PendingIntent;
 import android.content.*;
 import android.net.Uri;
 import android.os.Build;
@@ -117,14 +116,7 @@ public class SharePlugin extends Plugin {
             if (files != null && files.length() != 0) {
                 shareFiles(files, intent, call);
             }
-            int flags = PendingIntent.FLAG_UPDATE_CURRENT;
-            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                flags = flags | PendingIntent.FLAG_MUTABLE;
-            }
-
-            // requestCode parameter is not used. Providing 0
-            PendingIntent pi = PendingIntent.getBroadcast(getContext(), 0, new Intent(Intent.EXTRA_CHOSEN_COMPONENT), flags);
-            Intent chooser = Intent.createChooser(intent, dialogTitle, pi.getIntentSender());
+            Intent chooser = Intent.createChooser(intent, dialogTitle);
             chosenComponent = null;
             chooser.addCategory(Intent.CATEGORY_DEFAULT);
             stopped = false;
